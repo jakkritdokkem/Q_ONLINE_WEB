@@ -6,6 +6,7 @@ import ModalForm from './form/ModalForm';
 
 function MainTreatmentType() {
   const [show, setShow] = useState(false);
+  const [id, setId] = useState(0);
   const [data, setData] = useState([]);
   const [pagin, setPagin] = useState({
     totalRow: 1,
@@ -18,6 +19,7 @@ function MainTreatmentType() {
     fetchTreatmentType(10, 1, '');
   }, []);
 
+  // ฟังก์ชันดึงข้อมูลแบบแบ่งหน้า
   async function fetchTreatmentType(pageSize, currentPage, search) {
     let res = await getTreatmentType(pageSize, currentPage, search);
     if (res) {
@@ -95,6 +97,7 @@ function MainTreatmentType() {
                   data={data}
                   pagin={pagin}
                   setShow={setShow}
+                  setId={setId}
                   changePage={(page) => {
                     fetchTreatmentType(pagin.pageSize, page, values.search);
                   }}
@@ -109,9 +112,11 @@ function MainTreatmentType() {
       </div>
       {/*-- Modal form insert and update --*/}
       <ModalForm
+        id={id}
         show={show}
         setShow={setShow}
         reload={() => {
+          setId(0);
           setShow(false);
           fetchTreatmentType(10, 1, '');
         }}

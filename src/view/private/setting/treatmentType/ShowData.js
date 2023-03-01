@@ -4,7 +4,7 @@ import { TextSelect } from '../../../../components/TextSelect';
 import PageSize from '../../../../data/pageSize.json';
 import DateTh from '../../../../components/DateTh';
 
-function ShowData({ data, pagin, setShow, changePage, changePageSize }) {
+function ShowData({ data, pagin, setShow, setId, changePage, changePageSize }) {
   return (
     <div className="w-full">
       <div className="d-flex justify-content-between mb-2">
@@ -26,6 +26,7 @@ function ShowData({ data, pagin, setShow, changePage, changePageSize }) {
             type="button"
             className="btn btn-success"
             onClick={() => {
+              setId(0);
               setShow(true);
             }}
           >
@@ -41,7 +42,7 @@ function ShowData({ data, pagin, setShow, changePage, changePageSize }) {
               <th scope="col" style={{ width: '5%' }}>
                 ลำดับ
               </th>
-              <th scope="col" style={{ width: '45%' }}>
+              <th scope="col" style={{ width: '40%' }}>
                 ประเภทการรักษา
               </th>
               <th scope="col" style={{ width: '20%' }}>
@@ -50,7 +51,7 @@ function ShowData({ data, pagin, setShow, changePage, changePageSize }) {
               <th scope="col" style={{ width: '20%' }}>
                 สถานะการใช้งาน
               </th>
-              <th scope="col" style={{ width: '10%' }}>
+              <th scope="col" style={{ width: '15%' }}>
                 จัดการ
               </th>
             </tr>
@@ -71,7 +72,36 @@ function ShowData({ data, pagin, setShow, changePage, changePageSize }) {
                     <DateTh date={item.created_date} />
                   </td>
                   <td>{item.is_used === 1 ? 'ใช้งาน' : 'ไม่ใช้งาน'}</td>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-warning text-white mx-1 mt-1"
+                      onClick={() => {
+                        setId(item.id);
+                        setShow(true);
+                      }}
+                    >
+                      <i className="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn text-white mx-1 mt-1 ${item.is_used === 1 ? 'btn-danger' : 'btn-success'}`}
+                      onClick={() => {
+                        console.log();
+                      }}
+                    >
+                      {item.is_used === 1 ? <i className="fa-solid fa-lock"></i> : <i className="fa-solid fa-lock-open"></i>}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger text-white mx-1 mt-1"
+                      onClick={() => {
+                        console.log();
+                      }}
+                    >
+                      <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                  </td>
                 </tr>
               ))
             )}

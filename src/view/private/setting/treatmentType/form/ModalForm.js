@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { Formik, Form, ErrorMessage } from 'formik';
 import Schema from './Validation';
-import { createTreatmentType } from '../../../../../service/TreatmentType.Service';
+import { getDetalTreatmentType, createTreatmentType, updateTreatmentType } from '../../../../../service/TreatmentType.Service';
 import Swal from 'sweetalert2';
 
-function ModalForm({ show, setShow, reload }) {
-  // ฟังก์ชันบันทึกข้อมูล
-  async function create(data) {
-    let res = await createTreatmentType(data);
+function ModalForm({ id, show, setShow, reload }) {
+  const [detail, setDetail] = useState(null);
+
+  useEffect(() => {
+    if (id !== 0) {
+      getDetail(id);
+    } else {
+      setDetail(null);
+    }
+  }, [id]);
+
+  // ฟังก์ชันดึงข้อมูลตาม id ที่ส่งมา
+  async function getDetail(id) {
+    let res = await getDetalTreatmentType(id);
+    if (res) {
+      if (res.statusCode === 200 && res.taskStatus) {
+        setDetail(res.data);
+      }
+    }
+  }
+
+  // ฟังก์ชันบันทึกข้อมูล และแก้ไขข้อมูล
+  async function save(data) {
+    let res = id === 0 ? await createTreatmentType(data) : await updateTreatmentType(id, data);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
         Swal.fire({
@@ -32,18 +52,18 @@ function ModalForm({ show, setShow, reload }) {
   return (
     <Modal show={show} onHide={setShow} centered>
       <Modal.Header closeButton>
-        <Modal.Title>เพิ่มข้อมูล</Modal.Title>
+        <Modal.Title>{id === 0 ? 'เพิ่มข้อมูล' : 'แก้ไขข้อมูล'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
           enableReinitialize={true}
           validationSchema={Schema}
           initialValues={{
-            name: '',
+            name: detail ? detail.name : '',
           }}
           onSubmit={(value) => {
             console.log('submit :', value);
-            create(value);
+            save(value);
           }}
         >
           {({ values, errors, touched, setFieldValue }) => (
