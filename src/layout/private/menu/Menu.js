@@ -22,15 +22,21 @@ export const Menu = [
     subMenu: [
       {
         id: 31,
-        title: 'ประเภทการรักษา',
+        title: 'รายชื่อผู้ป่วย',
         icon: 'fa-solid fa-minus',
-        pathname: '/admin/treatment_type',
+        pathname: '/admin/user',
       },
       {
         id: 32,
         title: 'รายชื่อแพท',
         icon: 'fa-solid fa-minus',
         pathname: '/admin/doctor',
+      },
+      {
+        id: 33,
+        title: 'ประเภทการรักษา',
+        icon: 'fa-solid fa-minus',
+        pathname: '/admin/treatment_type',
       },
     ],
   },

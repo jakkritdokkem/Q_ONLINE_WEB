@@ -4,6 +4,8 @@ import { getTreatmentType, updateStstusTreatmentType, deleteTreatmentType } from
 import ShowData from './ShowData';
 import ModalForm from './form/ModalForm';
 import Swal from 'sweetalert2';
+import { TextSelect } from '../../../../components/TextSelect';
+import Status from '../../../../data/status.json';
 
 function MainTreatmentType() {
   const [show, setShow] = useState(false);
@@ -17,12 +19,12 @@ function MainTreatmentType() {
   });
 
   useEffect(() => {
-    fetchData(10, 1, '');
+    fetchData(10, 1, '', '');
   }, []);
 
   // ฟังก์ชันดึงข้อมูลแบบแบ่งหน้า
-  async function fetchData(pageSize, currentPage, search) {
-    let res = await getTreatmentType(pageSize, currentPage, search);
+  async function fetchData(pageSize, currentPage, search, status) {
+    let res = await getTreatmentType(pageSize, currentPage, search, status);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
         setData(res.data);
@@ -53,7 +55,7 @@ function MainTreatmentType() {
               showConfirmButton: false,
               timer: 1500,
             });
-            fetchData(10, 1, '');
+            fetchData(10, 1, '', '');
           } else {
             Swal.fire({
               icon: 'error',
@@ -89,7 +91,7 @@ function MainTreatmentType() {
               showConfirmButton: false,
               timer: 1500,
             });
-            fetchData(10, 1, '');
+            fetchData(10, 1, '', '');
           } else {
             Swal.fire({
               icon: 'error',
@@ -128,10 +130,11 @@ function MainTreatmentType() {
           // validationSchema={Schema}
           initialValues={{
             search: '',
+            status: '',
           }}
           onSubmit={(value) => {
             console.log('submit :', value);
-            fetchData(pagin.pageSize, 1, value.search);
+            fetchData(pagin.pageSize, 1, value.search, value.status);
           }}
         >
           {({ values, errors, touched, setFieldValue }) => (
@@ -148,7 +151,21 @@ function MainTreatmentType() {
                     }}
                   />
                 </div>
-                <div className="col-12 col-md-6 col-lg-8 pt-4">
+                <div className="col-12 col-md-6 col-lg-4">
+                  <label>สถานะการใช้งาน</label>
+                  <TextSelect
+                    id="pagesize"
+                    name="pagesize"
+                    options={Status}
+                    value={Status.filter((a) => a.value === values.status)}
+                    onChange={(item) => {
+                      setFieldValue('status', item.value);
+                    }}
+                    getOptionLabel={(z) => z.label}
+                    getOptionValue={(x) => x.value}
+                  />
+                </div>
+                <div className="col-12 col-lg-4 pt-4">
                   <button type="submit" className="btn btn-success mx-1">
                     <i className="fa-solid fa-magnifying-glass mx-1"></i>
                     ค้นหา
@@ -157,7 +174,7 @@ function MainTreatmentType() {
                     type="reset"
                     className="btn btn-secondary mx-1"
                     onClick={() => {
-                      fetchData(10, 1, '');
+                      fetchData(10, 1, '', '');
                     }}
                   >
                     <i className="fa-solid fa-rotate-left mx-1"></i>
@@ -174,10 +191,10 @@ function MainTreatmentType() {
                   updateStatus={updateStatus}
                   deleteData={deleteData}
                   changePage={(page) => {
-                    fetchData(pagin.pageSize, page, values.search);
+                    fetchData(pagin.pageSize, page, values.search, values.status);
                   }}
                   changePageSize={(pagesize) => {
-                    fetchData(pagesize, 1, values.search);
+                    fetchData(pagesize, 1, values.search, values.status);
                   }}
                 />
               </div>
@@ -193,7 +210,7 @@ function MainTreatmentType() {
         reload={() => {
           setId(0);
           setShow(false);
-          fetchData(10, 1, '');
+          fetchData(10, 1, '', '');
         }}
       />
     </Fragment>

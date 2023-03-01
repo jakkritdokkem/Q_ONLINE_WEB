@@ -1,9 +1,9 @@
 import Instance from '../helper/Axios';
 
 // ดึงข้อมูลแบบแบ่งหน้า
-export async function getTreatmentType(pageSize, currentPage, search) {
+export async function getTreatmentType(pageSize, currentPage, search, status) {
   try {
-    const response = await Instance.get(`treatment/getTreatment?pageSize=${pageSize}&currentPage=${currentPage}&search=${search}`);
+    const response = await Instance.get(`treatment/getTreatment?pageSize=${pageSize}&currentPage=${currentPage}&search=${search}&status=${status}`);
     return await response.data;
   } catch (error) {
     console.log('error', error);
