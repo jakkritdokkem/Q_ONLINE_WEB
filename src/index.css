@@ -49,8 +49,21 @@ body {
   border-radius: 0.5rem; /* 8px */
 }
 
+.invalid {
+  border: 1px solid red !important;
+}
+
+.valid {
+  border: 1px solid green !important;
+}
+
+.text-invalid {
+  color: red !important;
+  font-size: 14px;
+}
+
 .w-pagesize {
-  width: 100px
+  width: 100px;
 }
 
 .pagination {

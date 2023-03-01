@@ -2,8 +2,10 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import { getTreatmentType } from '../../../../service/TreatmentType.Service';
 import ShowData from './ShowData';
+import ModalForm from './form/ModalForm';
 
 function MainTreatmentType() {
+  const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const [pagin, setPagin] = useState({
     totalRow: 1,
@@ -92,6 +94,7 @@ function MainTreatmentType() {
                 <ShowData
                   data={data}
                   pagin={pagin}
+                  setShow={setShow}
                   changePage={(page) => {
                     fetchTreatmentType(pagin.pageSize, page, values.search);
                   }}
@@ -104,6 +107,15 @@ function MainTreatmentType() {
           )}
         </Formik>
       </div>
+      {/*-- Modal form insert and update --*/}
+      <ModalForm
+        show={show}
+        setShow={setShow}
+        reload={() => {
+          setShow(false);
+          fetchTreatmentType(10, 1, '');
+        }}
+      />
     </Fragment>
   );
 }

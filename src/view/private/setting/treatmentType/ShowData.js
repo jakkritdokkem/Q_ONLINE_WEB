@@ -4,7 +4,7 @@ import { TextSelect } from '../../../../components/TextSelect';
 import PageSize from '../../../../data/pageSize.json';
 import DateTh from '../../../../components/DateTh';
 
-function ShowData({ data, pagin, changePage, changePageSize }) {
+function ShowData({ data, pagin, setShow, changePage, changePageSize }) {
   return (
     <div className="w-full">
       <div className="d-flex justify-content-between mb-2">
@@ -21,7 +21,18 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
             getOptionValue={(x) => x.id}
           />
         </div>
-        <div></div>
+        <div>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={() => {
+              setShow(true);
+            }}
+          >
+            <i className="fa-solid fa-plus mx-1"></i>
+            เพิ่ม
+          </button>
+        </div>
       </div>
       <div className="overflow-auto">
         <table className="table">
