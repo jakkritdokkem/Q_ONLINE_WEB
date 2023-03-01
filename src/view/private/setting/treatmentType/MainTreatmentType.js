@@ -16,8 +16,8 @@ function MainTreatmentType() {
     fetchTreatmentType(10, 1, '');
   }, []);
 
-  async function fetchTreatmentType(pagesize, currentpage, search) {
-    let res = await getTreatmentType(pagesize, currentpage, search);
+  async function fetchTreatmentType(pageSize, currentPage, search) {
+    let res = await getTreatmentType(pageSize, currentPage, search);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
         setData(res.data);
