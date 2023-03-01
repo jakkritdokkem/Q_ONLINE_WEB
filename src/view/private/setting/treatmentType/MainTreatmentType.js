@@ -67,6 +67,7 @@ function MainTreatmentType() {
     });
   }
 
+  // ฟังก์ชันลบ
   function deleteData(id) {
     Swal.fire({
       title: 'คุณต้องการลบรายการนี้ใช่หรือไม่ !',
