@@ -39,3 +39,23 @@ export async function updateTreatmentType(id, data) {
     console.log('error', error);
   }
 }
+
+// อัพเดทสถานะข้อมูล
+export async function updateStstusTreatmentType(id, data) {
+  try {
+    const response = await Instance.put(`treatment/updateStatusTreatment/${id}`, data);
+    return await response.data;
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
+// ลบข้อมูล
+export async function deleteTreatmentType(id) {
+  try {
+    const response = await Instance.delete(`treatment/deleteTreatment/${id}`);
+    return await response.data;
+  } catch (error) {
+    console.log('error', error);
+  }
+}

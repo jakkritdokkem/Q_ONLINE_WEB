@@ -4,7 +4,7 @@ import { TextSelect } from '../../../../components/TextSelect';
 import PageSize from '../../../../data/pageSize.json';
 import DateTh from '../../../../components/DateTh';
 
-function ShowData({ data, pagin, setShow, setId, changePage, changePageSize }) {
+function ShowData({ data, pagin, setShow, setId, updateStatus, deleteData, changePage, changePageSize }) {
   return (
     <div className="w-full">
       <div className="d-flex justify-content-between mb-2">
@@ -87,7 +87,7 @@ function ShowData({ data, pagin, setShow, setId, changePage, changePageSize }) {
                       type="button"
                       className={`btn text-white mx-1 mt-1 ${item.is_used === 1 ? 'btn-danger' : 'btn-success'}`}
                       onClick={() => {
-                        console.log();
+                        updateStatus(item.id, { status: item.is_used === 1 ? 0 : 1 });
                       }}
                     >
                       {item.is_used === 1 ? <i className="fa-solid fa-lock"></i> : <i className="fa-solid fa-lock-open"></i>}
@@ -96,7 +96,7 @@ function ShowData({ data, pagin, setShow, setId, changePage, changePageSize }) {
                       type="button"
                       className="btn btn-danger text-white mx-1 mt-1"
                       onClick={() => {
-                        console.log();
+                        deleteData(item.id);
                       }}
                     >
                       <i className="fa-solid fa-trash-can"></i>

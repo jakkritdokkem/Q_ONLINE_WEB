@@ -1,8 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
-import { getTreatmentType } from '../../../../service/TreatmentType.Service';
+import { getTreatmentType, updateStstusTreatmentType, deleteTreatmentType } from '../../../../service/TreatmentType.Service';
 import ShowData from './ShowData';
 import ModalForm from './form/ModalForm';
+import Swal from 'sweetalert2';
 
 function MainTreatmentType() {
   const [show, setShow] = useState(false);
@@ -16,11 +17,11 @@ function MainTreatmentType() {
   });
 
   useEffect(() => {
-    fetchTreatmentType(10, 1, '');
+    fetchData(10, 1, '');
   }, []);
 
   // ฟังก์ชันดึงข้อมูลแบบแบ่งหน้า
-  async function fetchTreatmentType(pageSize, currentPage, search) {
+  async function fetchData(pageSize, currentPage, search) {
     let res = await getTreatmentType(pageSize, currentPage, search);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
@@ -28,6 +29,77 @@ function MainTreatmentType() {
         setPagin(res.pagin);
       }
     }
+  }
+
+  // ฟังก์ชันอัพเดทสถานะการใช้งาน
+  function updateStatus(id, data) {
+    Swal.fire({
+      title: 'คุณต้องการอัพเดทสถานะรายการนี้ใช่หรือไม่ !',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let res = await updateStstusTreatmentType(id, data);
+        if (res) {
+          if (res.statusCode === 200 && res.taskStatus) {
+            Swal.fire({
+              icon: 'success',
+              title: 'อัพเดทข้อมูลสำเร็จ',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            fetchData(10, 1, '');
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'อัพเดทข้อมูลไม่สำเร็จ',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        }
+      }
+    });
+  }
+
+  function deleteData(id) {
+    Swal.fire({
+      title: 'คุณต้องการลบรายการนี้ใช่หรือไม่ !',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let res = await deleteTreatmentType(id);
+        if (res) {
+          if (res.statusCode === 200 && res.taskStatus) {
+            Swal.fire({
+              icon: 'success',
+              title: 'ลบข้อมูลสำเร็จ',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            fetchData(10, 1, '');
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'ลบข้อมูลไม่สำเร็จ',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        }
+      }
+    });
   }
 
   return (
@@ -58,7 +130,7 @@ function MainTreatmentType() {
           }}
           onSubmit={(value) => {
             console.log('submit :', value);
-            fetchTreatmentType(pagin.pageSize, 1, value.search);
+            fetchData(pagin.pageSize, 1, value.search);
           }}
         >
           {({ values, errors, touched, setFieldValue }) => (
@@ -84,7 +156,7 @@ function MainTreatmentType() {
                     type="reset"
                     className="btn btn-secondary mx-1"
                     onClick={() => {
-                      fetchTreatmentType(10, 1, '');
+                      fetchData(10, 1, '');
                     }}
                   >
                     <i className="fa-solid fa-rotate-left mx-1"></i>
@@ -98,11 +170,13 @@ function MainTreatmentType() {
                   pagin={pagin}
                   setShow={setShow}
                   setId={setId}
+                  updateStatus={updateStatus}
+                  deleteData={deleteData}
                   changePage={(page) => {
-                    fetchTreatmentType(pagin.pageSize, page, values.search);
+                    fetchData(pagin.pageSize, page, values.search);
                   }}
                   changePageSize={(pagesize) => {
-                    fetchTreatmentType(pagesize, 1, values.search);
+                    fetchData(pagesize, 1, values.search);
                   }}
                 />
               </div>
@@ -118,7 +192,7 @@ function MainTreatmentType() {
         reload={() => {
           setId(0);
           setShow(false);
-          fetchTreatmentType(10, 1, '');
+          fetchData(10, 1, '');
         }}
       />
     </Fragment>
