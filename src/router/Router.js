@@ -7,7 +7,7 @@ import Redirect from '../view/error/Redirect';
 // private
 import MainTreatmentType from '../view/private/setting/treatmentType/MainTreatmentType';
 
-// publice
+// public
 
 function Router() {
   const role = 1; // 1 = admin, 0 = user
