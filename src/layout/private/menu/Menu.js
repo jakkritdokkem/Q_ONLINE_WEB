@@ -28,7 +28,7 @@ export const Menu = [
       },
       {
         id: 32,
-        title: 'รายชื่อแพท',
+        title: 'รายชื่อแพทย์',
         icon: 'fa-solid fa-minus',
         pathname: '/admin/doctor',
       },
