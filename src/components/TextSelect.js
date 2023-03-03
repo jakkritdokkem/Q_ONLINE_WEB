@@ -44,7 +44,7 @@ export const TextSelect = ({ title, useForm = true, placeholder, ...props }) => 
   return (
     <Fragment>
       <Select menuPortalTarget={document.body} styles={customStyles} {...field} {...props} placeholder={<p className="truncate">{placeholder}</p>} noOptionsMessage={() => <p className="text-red-700">ไม่พบข้อมูล !</p>} loadingMessage={() => 'กำลังโหลดข้อมูล...'} />
-      <ErrorMessage component="div" name={field.name} className="mt-1 text-red-500 text-xs" />
+      <ErrorMessage component="div" name={field.name} className="text-invalid" />
     </Fragment>
   );
 };
