@@ -20,6 +20,16 @@ export async function getDetalTreatmentType(id) {
   }
 }
 
+// ดึงข้อมูลประเภทการรักษาทั้งหมด
+export async function getTreatmentTypeAll() {
+  try {
+    const response = await Instance.get('treatment/getTreatmentAll');
+    return await response.data;
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
 // เพิ่มข้อมูล
 export async function createTreatmentType(data) {
   try {
