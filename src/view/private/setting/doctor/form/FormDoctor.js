@@ -23,7 +23,7 @@ function FormDoctor() {
     }
   }
 
-  console.log('location', location);
+  // console.log('location', location);
 
   return (
     <Fragment>
@@ -60,7 +60,6 @@ function FormDoctor() {
         >
           {({ values, errors, touched, setFieldValue }) => (
             <Form>
-              {console.log('errors', errors)}
               <div className="row d-flex justify-content-center">
                 <div className="col-12 col-md-8 col-lg-6">
                   <div className="row">

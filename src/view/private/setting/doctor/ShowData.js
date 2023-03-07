@@ -4,7 +4,7 @@ import PageSize from '../../../../data/pageSize.json';
 import Pagination from 'react-js-pagination';
 import { useNavigate } from 'react-router-dom';
 
-function ShowData({ data, pagin }) {
+function ShowData({ data, pagin, changePage, changePageSize }) {
   const navigate = useNavigate();
 
   return (
@@ -15,9 +15,9 @@ function ShowData({ data, pagin }) {
             id="pagesize"
             name="pagesize"
             options={PageSize}
-            value={PageSize.filter((a) => a.id === 10 /* pagin.pageSize */)}
+            value={PageSize.filter((a) => a.id === pagin.pageSize)}
             onChange={(item) => {
-              // changePageSize(item.id);
+              changePageSize(item.id);
             }}
             getOptionLabel={(z) => z.label}
             getOptionValue={(x) => x.id}
@@ -61,7 +61,7 @@ function ShowData({ data, pagin }) {
             {data.map((item, index) => (
               <tr key={item.id}>
                 <td>{(pagin.currentPage - 1) * pagin.pageSize + (index + 1)}</td>
-                <td>{`${item.name} ${item.lastname}`}</td>
+                <td>{item.fullname}</td>
                 <td>{item.treatment_type_name}</td>
                 <td>{item.is_used === 1 ? 'ใช้งาน' : 'ไม่ใช้งาน'}</td>
                 <td>
@@ -102,15 +102,15 @@ function ShowData({ data, pagin }) {
         </table>
       </div>
       <div className="d-flex justify-content-between">
-        <div>จำนวน {1 /*pagin.totalRow*/} รายการ</div>
+        <div>จำนวน {pagin.totalRow} รายการ</div>
         <div>
           <Pagination
-            activePage={1 /*pagin.currentPage*/}
-            itemsCountPerPage={10 /*pagin.pageSize*/}
-            totalItemsCount={1 /*pagin.totalRow*/}
-            pageRangeDisplayed={1 /*pagin.totalPage*/}
+            activePage={pagin.currentPage}
+            itemsCountPerPage={pagin.pageSize}
+            totalItemsCount={pagin.totalRow}
+            pageRangeDisplayed={pagin.totalPage}
             onChange={(page) => {
-              // changePage(page);
+              changePage(page);
             }}
           />
         </div>

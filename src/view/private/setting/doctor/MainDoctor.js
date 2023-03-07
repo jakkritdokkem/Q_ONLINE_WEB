@@ -44,8 +44,6 @@ function MainDoctor() {
     }
   }
 
-  console.log('data', data);
-
   return (
     <Fragment>
       <div className="w-full">
@@ -76,6 +74,7 @@ function MainDoctor() {
           }}
           onSubmit={(value) => {
             console.log('submit :', value);
+            fetchData(pagin.pageSize, 1, value.search, value.treatment, value.status);
           }}
         >
           {({ values, errors, touched, setFieldValue }) => (
@@ -120,25 +119,34 @@ function MainDoctor() {
                     getOptionValue={(x) => x.value}
                   />
                 </div>
-                <div className="col-12 col-lg-4 pt-4">
-                  <button type="submit" className="btn btn-success mx-1">
-                    <i className="fa-solid fa-magnifying-glass mx-1"></i>
-                    ค้นหา
-                  </button>
-                  <button
-                    type="reset"
-                    className="btn btn-secondary mx-1"
-                    onClick={() => {
-                      console.log();
-                    }}
-                  >
-                    <i className="fa-solid fa-rotate-left mx-1"></i>
-                    ล้างค่า
-                  </button>
-                </div>
+              </div>
+              <div className="d-flex justify-content-center mt-4">
+                <button type="submit" className="btn btn-success mx-1">
+                  <i className="fa-solid fa-magnifying-glass mx-1"></i>
+                  ค้นหา
+                </button>
+                <button
+                  type="reset"
+                  className="btn btn-secondary mx-1"
+                  onClick={() => {
+                    fetchData(10, 1, '', '', '');
+                  }}
+                >
+                  <i className="fa-solid fa-rotate-left mx-1"></i>
+                  ล้างค่า
+                </button>
               </div>
               <div className="w-full mt-5">
-                <ShowData data={data} pagin={pagin} />
+                <ShowData
+                  data={data}
+                  pagin={pagin}
+                  changePage={(page) => {
+                    fetchData(pagin.pageSize, page, values.search, values.treatment, values.status);
+                  }}
+                  changePageSize={(pagesize) => {
+                    fetchData(pagesize, 1, values.search, values.treatment, values.status);
+                  }}
+                />
               </div>
             </Form>
           )}
