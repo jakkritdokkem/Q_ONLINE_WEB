@@ -58,46 +58,54 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
             </tr>
           </thead>
           <tbody>
-            {data.map((item, index) => (
-              <tr key={item.id}>
-                <td>{(pagin.currentPage - 1) * pagin.pageSize + (index + 1)}</td>
-                <td>{item.fullname}</td>
-                <td>{item.treatment_type_name}</td>
-                <td>{item.is_used === 1 ? 'ใช้งาน' : 'ไม่ใช้งาน'}</td>
-                <td>
-                  {/* ปุ่มแก้ไข */}
-                  <button
-                    type="button"
-                    className="btn btn-warning text-white mx-1 mt-1"
-                    onClick={() => {
-                      navigate('/admin/doctor/form', { state: '1' });
-                    }}
-                  >
-                    <i className="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  {/* ปุ่มอัพเดทสถานะการใช้งาน */}
-                  <button
-                    type="button"
-                    className={`btn text-white mx-1 mt-1 ${1 === 1 ? 'btn-danger' : 'btn-success'}`}
-                    onClick={() => {
-                      console.log();
-                    }}
-                  >
-                    {1 === 1 ? <i className="fa-solid fa-lock"></i> : <i className="fa-solid fa-lock-open"></i>}
-                  </button>
-                  {/* ปุ่มลบข้อมูล */}
-                  <button
-                    type="button"
-                    className="btn btn-danger text-white mx-1 mt-1"
-                    onClick={() => {
-                      console.log();
-                    }}
-                  >
-                    <i className="fa-solid fa-trash-can"></i>
-                  </button>
+            {data.length === 0 ? (
+              <tr>
+                <td colSpan={5}>
+                  <div className="text-center text-danger">-- ไม่พบข้อมูล --</div>
                 </td>
               </tr>
-            ))}
+            ) : (
+              data.map((item, index) => (
+                <tr key={item.id}>
+                  <td>{(pagin.currentPage - 1) * pagin.pageSize + (index + 1)}</td>
+                  <td>{item.fullname}</td>
+                  <td>{item.treatment_type_name}</td>
+                  <td>{item.is_used === 1 ? 'ใช้งาน' : 'ไม่ใช้งาน'}</td>
+                  <td>
+                    {/* ปุ่มแก้ไข */}
+                    <button
+                      type="button"
+                      className="btn btn-warning text-white mx-1 mt-1"
+                      onClick={() => {
+                        navigate('/admin/doctor/form', { state: '1' });
+                      }}
+                    >
+                      <i className="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    {/* ปุ่มอัพเดทสถานะการใช้งาน */}
+                    <button
+                      type="button"
+                      className={`btn text-white mx-1 mt-1 ${1 === 1 ? 'btn-danger' : 'btn-success'}`}
+                      onClick={() => {
+                        console.log();
+                      }}
+                    >
+                      {1 === 1 ? <i className="fa-solid fa-lock"></i> : <i className="fa-solid fa-lock-open"></i>}
+                    </button>
+                    {/* ปุ่มลบข้อมูล */}
+                    <button
+                      type="button"
+                      className="btn btn-danger text-white mx-1 mt-1"
+                      onClick={() => {
+                        console.log();
+                      }}
+                    >
+                      <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
