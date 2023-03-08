@@ -14,11 +14,11 @@ import MainUser from '../view/private/setting/user/MainUser';
 import FormUser from '../view/private/setting/user/form/FormUser';
 
 // public
-import FormRegister from '../view/public/users/register/FormRegister';
-import Login from '../view/authentication/login/Login';
+import FormRegister from '../view/authentication/register/FormRegister';
+// import Login from '../view/authentication/login/Login';
 
 function Router() {
-  const role = 1; // 1 = admin, 0 = user
+  const role = 0; // 1 = admin, 0 = user
 
   return (
     <Fragment>
@@ -31,7 +31,7 @@ function Router() {
               <Route path="/book-an-appointment" element={<h1>จองคิว</h1>} />
               <Route path="/check-book-an-appointment" element={<h1>ตรวจสอบคิว</h1>} />
               <Route path="/register" element={<FormRegister />} />
-              <Route path="/login" element={<Login />} />
+              {/* <Route path="/login" element={<Login />} /> */}
               <Route path="*" element={<Redirect />} />
             </Routes>
           </PublicLayout>

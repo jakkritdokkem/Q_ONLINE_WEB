@@ -1,30 +1,30 @@
-import React, { Fragment, useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import { createUser } from "../../../../service/User.Service";
-import prefixUser from "../../../../data/prefixUser.json";
-import { Formik, Form, ErrorMessage } from "formik";
-import { TextSelect } from "../../../../components/TextSelect";
-import { getAddressThai } from "../../../../service/Address.Service";
-import Schema from "./Validation";
+import React, { Fragment, useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import { createUser } from '../../../service/User.Service';
+import prefixUser from '../../../data/prefixUser.json';
+import { Formik, Form, ErrorMessage } from 'formik';
+import { TextSelect } from '../../../components/TextSelect';
+import { getAddressThai } from '../../../service/Address.Service';
+import Schema from './Validation';
 
 function FormRegister() {
   const navigate = useNavigate();
-  const [searchAddress, setSearchAddress] = useState("");
+  const [searchAddress, setSearchAddress] = useState('');
   const [address, setAddress] = useState([]);
 
   const dataGender = [
     {
-      id: "1",
-      title: "ชาย",
+      id: '1',
+      title: 'ชาย',
     },
     {
-      id: "2",
-      title: "หญิง",
+      id: '2',
+      title: 'หญิง',
     },
     {
-      id: "3",
-      title: "อื่น ๆ",
+      id: '3',
+      title: 'อื่น ๆ',
     },
   ];
 
@@ -46,24 +46,24 @@ function FormRegister() {
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
         Swal.fire({
-          icon: "success",
-          title: "ลงทะเบียนสำเร็จ",
+          icon: 'success',
+          title: 'ลงทะเบียนสำเร็จ',
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/login");
+        navigate('/login');
       } else {
         Swal.fire({
-          icon: "error",
-          title: "ลงทะเบียนไม่สำเร็จ !!",
+          icon: 'error',
+          title: 'ลงทะเบียนไม่สำเร็จ !!',
           showConfirmButton: true,
         });
       }
     } else {
       Swal.fire({
-        icon: "error",
-        title: "เกิดข้อผิดพลาด !!",
-        text: "Server Error",
+        icon: 'error',
+        title: 'เกิดข้อผิดพลาด !!',
+        text: 'Server Error',
         showConfirmButton: true,
       });
     }
@@ -79,24 +79,24 @@ function FormRegister() {
           enableReinitialize={true}
           validationSchema={Schema}
           initialValues={{
-            idCard: "",
-            prefixId: "",
-            name: "",
-            lastname: "",
-            birthday: "",
-            phoneNumber: "",
-            gender: "",
-            address: "",
-            subdistrict: "",
-            district: "",
-            province: "",
-            postcode: "",
-            prifixContactId: "",
-            nameContact: "",
-            lastnameContact: "",
-            password: "",
-            fullAddress: "",
-            subdistrictsId: "",
+            idCard: '',
+            prefixId: '',
+            name: '',
+            lastname: '',
+            birthday: '',
+            phoneNumber: '',
+            gender: '',
+            address: '',
+            subdistrict: '',
+            district: '',
+            province: '',
+            postcode: '',
+            prifixContactId: '',
+            nameContact: '',
+            lastnameContact: '',
+            password: '',
+            fullAddress: '',
+            subdistrictsId: '',
           }}
           onSubmit={(value) => {
             save(value);
@@ -113,9 +113,9 @@ function FormRegister() {
                         name="idCard"
                         type="text"
                         value={values.idCard}
-                        className={`form-input ${touched.idCard ? (errors.idCard ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.idCard ? (errors.idCard ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("idCard", e.target.value);
+                          setFieldValue('idCard', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="idCard" className="text-invalid" />
@@ -127,9 +127,9 @@ function FormRegister() {
                         name="password"
                         type="text"
                         value={values.password}
-                        className={`form-input ${touched.password ? (errors.password ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.password ? (errors.password ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("password", e.target.value);
+                          setFieldValue('password', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="password" className="text-invalid" />
@@ -143,7 +143,7 @@ function FormRegister() {
                         options={prefixUser}
                         value={prefixUser.filter((a) => a.id === values.prefixId)}
                         onChange={(item) => {
-                          setFieldValue("prefixId", item.id);
+                          setFieldValue('prefixId', item.id);
                         }}
                         getOptionLabel={(z) => z.name}
                         getOptionValue={(x) => x.id}
@@ -156,9 +156,9 @@ function FormRegister() {
                         name="name"
                         type="text"
                         value={values.name}
-                        className={`form-input ${touched.name ? (errors.name ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.name ? (errors.name ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("name", e.target.value);
+                          setFieldValue('name', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="name" className="text-invalid" />
@@ -169,9 +169,9 @@ function FormRegister() {
                         name="lastname"
                         type="text"
                         value={values.lastname}
-                        className={`form-input ${touched.lastname ? (errors.lastname ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.lastname ? (errors.lastname ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("lastname", e.target.value);
+                          setFieldValue('lastname', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="lastname" className="text-invalid" />
@@ -184,7 +184,7 @@ function FormRegister() {
                         options={dataGender}
                         value={dataGender.filter((a) => a.id === values.gender)}
                         onChange={(item) => {
-                          setFieldValue("gender", item.id);
+                          setFieldValue('gender', item.id);
                         }}
                         getOptionLabel={(z) => z.title}
                         getOptionValue={(x) => x.id}
@@ -196,9 +196,9 @@ function FormRegister() {
                         name="birthday"
                         type="date"
                         value={values.birthday ? new Date(values.birthday).toISOString().slice(0, 10) : values.birthday}
-                        className={`form-input ${touched.birthday ? (errors.birthday ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.birthday ? (errors.birthday ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("birthday", e.target.value);
+                          setFieldValue('birthday', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="birthday" className="text-invalid" />
@@ -209,9 +209,9 @@ function FormRegister() {
                         name="phoneNumber"
                         type="text"
                         value={values.phoneNumber}
-                        className={`form-input ${touched.phoneNumber ? (errors.phoneNumber ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.phoneNumber ? (errors.phoneNumber ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("phoneNumber", e.target.value);
+                          setFieldValue('phoneNumber', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="phoneNumber" className="text-invalid" />
@@ -233,24 +233,24 @@ function FormRegister() {
                           }
                         }}
                         onMenuClose={() => {
-                          setSearchAddress("");
+                          setSearchAddress('');
                           setAddress([]);
                         }}
                         onChange={(e) => {
                           if (e && e.SubdistrictsId) {
-                            setFieldValue("subdistrictsId", e.SubdistrictsId);
-                            setFieldValue("subdistrict", e.SubdistrictsNameTh);
-                            setFieldValue("district", e.DistrictsNameTh);
-                            setFieldValue("province", e.ProvincesNameTh);
-                            setFieldValue("postcode", e.PostCode);
-                            setFieldValue("fullAddress", `ต.${e.SubdistrictsNameTh} อ.${e.DistrictsNameTh} จ.${e.ProvincesNameTh} ${e.PostCode}`);
+                            setFieldValue('subdistrictsId', e.SubdistrictsId);
+                            setFieldValue('subdistrict', e.SubdistrictsNameTh);
+                            setFieldValue('district', e.DistrictsNameTh);
+                            setFieldValue('province', e.ProvincesNameTh);
+                            setFieldValue('postcode', e.PostCode);
+                            setFieldValue('fullAddress', `ต.${e.SubdistrictsNameTh} อ.${e.DistrictsNameTh} จ.${e.ProvincesNameTh} ${e.PostCode}`);
                           } else {
-                            setFieldValue("subdistrictsId", "");
-                            setFieldValue("subdistrict", "");
-                            setFieldValue("district", "");
-                            setFieldValue("province", "");
-                            setFieldValue("postcode", "");
-                            setFieldValue("fullAddress", "");
+                            setFieldValue('subdistrictsId', '');
+                            setFieldValue('subdistrict', '');
+                            setFieldValue('district', '');
+                            setFieldValue('province', '');
+                            setFieldValue('postcode', '');
+                            setFieldValue('fullAddress', '');
                           }
                         }}
                         getOptionLabel={(z) => `ต.${z.SubdistrictsNameTh} อ.${z.DistrictsNameTh} จ.${z.ProvincesNameTh} ${z.PostCode}`}
@@ -264,9 +264,9 @@ function FormRegister() {
                         name="address"
                         type="text"
                         value={values.address}
-                        className={`form-input ${touched.address ? (errors.address ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.address ? (errors.address ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("address", e.target.value);
+                          setFieldValue('address', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="address" className="text-invalid" />
@@ -274,7 +274,7 @@ function FormRegister() {
 
                     <div className="col-6 px-1 mt-2">
                       <label>ตำบล / อำเภอ / จังหวัด/ รหัสไปรษณีย์</label>
-                      <input name="fullAddress" type="text" disabled={true} className={`form-input ${touched.fullAddress ? (errors.fullAddress ? "invalid" : "valid") : ""}`} value={values.fullAddress} />
+                      <input name="fullAddress" type="text" disabled={true} className={`form-input ${touched.fullAddress ? (errors.fullAddress ? 'invalid' : 'valid') : ''}`} value={values.fullAddress} />
                       <ErrorMessage component="div" name="fullAddress" className="text-invalid" />
                     </div>
 
@@ -286,7 +286,7 @@ function FormRegister() {
                         options={prefixUser}
                         value={prefixUser.filter((a) => a.id === values.prifixContactId)}
                         onChange={(item) => {
-                          setFieldValue("prifixContactId", item.id);
+                          setFieldValue('prifixContactId', item.id);
                         }}
                         getOptionLabel={(z) => z.name}
                         getOptionValue={(x) => x.id}
@@ -298,9 +298,9 @@ function FormRegister() {
                         name="nameContact"
                         type="text"
                         value={values.nameContact}
-                        className={`form-input ${touched.nameContact ? (errors.nameContact ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.nameContact ? (errors.nameContact ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("nameContact", e.target.value);
+                          setFieldValue('nameContact', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="nameContact" className="text-invalid" />
@@ -311,9 +311,9 @@ function FormRegister() {
                         name="lastnameContact"
                         type="text"
                         value={values.lastnameContact}
-                        className={`form-input ${touched.lastnameContact ? (errors.lastnameContact ? "invalid" : "valid") : ""}`}
+                        className={`form-input ${touched.lastnameContact ? (errors.lastnameContact ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue("lastnameContact", e.target.value);
+                          setFieldValue('lastnameContact', e.target.value);
                         }}
                       />
                       <ErrorMessage component="div" name="lastnameContact" className="text-invalid" />

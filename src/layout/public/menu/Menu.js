@@ -19,9 +19,9 @@ export const Menu = [
     title: 'ลงทะเบียน',
     pathname: '/register',
   },
-  {
-    id: 5,
-    title: 'เข้าสู่ระบบ',
-    pathname: '/login',
-  },
+  // {
+  //   id: 5,
+  //   title: 'เข้าสู่ระบบ',
+  //   pathname: '/login',
+  // },
 ];

@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu } from './menu/Menu';
 import { checkActive } from '../../helper/Check';
+import Login from '../../view/authentication/login/Login';
 
 function Header() {
   const location = useLocation();
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === '/login') {
+      setShow(true);
+    }
+  }, [location.pathname]);
 
   return (
     <header id="public">
@@ -23,9 +31,19 @@ function Header() {
                 {item.title}
               </Link>
             ))}
+            <Link
+              to="#"
+              className={`nav-link ${checkActive(location, '/login') ? 'nav-active' : ''}`}
+              onClick={() => {
+                setShow(!show);
+              }}
+            >
+              เข้าสู่ระบบ
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      <Login show={show} setShow={setShow} />
     </header>
   );
 }
