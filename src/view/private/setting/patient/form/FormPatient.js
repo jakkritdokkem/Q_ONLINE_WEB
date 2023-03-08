@@ -3,13 +3,15 @@ import { useLocation, Link } from "react-router-dom";
 import { Formik, Form, ErrorMessage } from "formik";
 import prefixUser from "../../../../../data/prefixUser.json";
 import { TextSelect } from "../../../../../components/TextSelect";
-import { createUser, getDetailUser,updateUser } from "../../../../../service/User.Service";
-import address_thai from "../../../../../data/address_thai.json";
+import { createUser, getDetailUser, updateUser } from "../../../../../service/User.Service";
+import { getAddressThai } from "../../../../../service/Address.Service";
 import Schema from "./Validation";
 
 function FormPatient() {
   const location = useLocation();
   const [data, setData] = useState(null);
+  const [searchAddress, setSearchAddress] = useState("");
+  const [address, setAddress] = useState([]);
   const dataGender = [
     {
       id: "1",
@@ -26,6 +28,12 @@ function FormPatient() {
   ];
 
   useEffect(() => {
+    if (searchAddress) {
+      getAddressList(searchAddress);
+    }
+  }, [searchAddress]);
+
+  useEffect(() => {
     if (location.state) {
       getDetail(location.state);
     }
@@ -40,16 +48,21 @@ function FormPatient() {
     }
   }
 
-  async function save(data) {
-    let res = location.state ? await updateUser(location.state,data):await createUser(data);
+  function getAddressList(search) {
+    let res = getAddressThai(search);
     if (res) {
-      if (res.statusCode === 200 && res.taskStatus) {
-        alert(location.state ? "update success" :"save success");
-      }
+      setAddress(res);
     }
   }
 
-
+  async function save(data) {
+    let res = location.state ? await updateUser(location.state, data) : await createUser(data);
+    if (res) {
+      if (res.statusCode === 200 && res.taskStatus) {
+        alert(location.state ? "update success" : "save success");
+      }
+    }
+  }
 
   return (
     <Fragment>
@@ -86,13 +99,13 @@ function FormPatient() {
             subdistrict: data ? data.subdistrict : "",
             district: data ? data.district : "",
             province: data ? data.province : "",
-            postcode:data ? data.postcode : "",
+            postcode: data ? data.postcode : "",
             prifix_contact_id: data ? data.prifix_contact_id : "",
             name_contact: data ? data.name_contact : "",
             lastname_contact: data ? data.lastname_contact : "",
-            password:data? data.password : "",
-            fulladdress:data ? `ต.${data.subdistrict} อ.${data.district} จ.${data.province} ${data.postcode}`:"",
-            SubdistrictsId: ""
+            password: data ? data.password : "",
+            fulladdress: data ? `ต.${data.subdistrict} อ.${data.district} จ.${data.province} ${data.postcode}` : "",
+            SubdistrictsId: "",
           }}
           onSubmit={(value) => {
             save(value);
@@ -103,7 +116,7 @@ function FormPatient() {
               <div className="row d-flex justify-content-center">
                 <div className="col-12 col-md-8 col-lg-6">
                   <div className="row">
-                  <div className="col-12 px-1 mt-2">
+                    <div className="col-12 px-1 mt-2">
                       <label>เลขบัตรประชาชน</label>
                       <input
                         name="id_card"
@@ -130,7 +143,7 @@ function FormPatient() {
                         getOptionValue={(x) => x.id}
                       />
                     </div>
-                    
+
                     <div className="col-12 px-1 mt-2">
                       <label>ชื่อ</label>
                       <input
@@ -162,7 +175,7 @@ function FormPatient() {
                       <input
                         name="birthday"
                         type="date"
-                        value={values.birthday ? new Date(values.birthday).toISOString().slice(0,10) : values.birthday}
+                        value={values.birthday ? new Date(values.birthday).toISOString().slice(0, 10) : values.birthday}
                         className={`form-input ${touched.birthday ? (errors.birthday ? "invalid" : "valid") : ""}`}
                         onChange={(e) => {
                           setFieldValue("birthday", e.target.value);
@@ -216,25 +229,35 @@ function FormPatient() {
                       <TextSelect
                         id="SubdistrictsId"
                         name="SubdistrictsId"
-                        isClearable={false}
-                        options={address_thai}
-                        value={address_thai.filter((a) => a.SubdistrictsId === values.SubdistrictsId)}
+                        isClearable={true}
+                        options={address}
+                        value={address.filter((a) => a.SubdistrictsId === values.SubdistrictsId)}
+                        onInputChange={(inputValue) => {
+                          if (inputValue) {
+                            setSearchAddress(inputValue);
+                          } else {
+                            setAddress([]);
+                          }
+                        }}
+                        onMenuClose={() => {
+                          setSearchAddress("");
+                          setAddress([]);
+                        }}
                         onChange={(e) => {
-                          if(e && e.SubdistrictsId){
+                          if (e && e.SubdistrictsId) {
                             setFieldValue("SubdistrictsId", e.SubdistrictsId);
                             setFieldValue("subdistrict", e.SubdistrictsNameTh);
                             setFieldValue("district", e.DistrictsNameTh);
                             setFieldValue("province", e.ProvincesNameTh);
                             setFieldValue("postcode", e.PostCode);
-                            setFieldValue("fulladdress",`ต.${e.SubdistrictsNameTh} อ.${e.DistrictsNameTh} จ.${e.ProvincesNameTh} ${e.PostCode}`)
-                          }
-                          else{
+                            setFieldValue("fulladdress", `ต.${e.SubdistrictsNameTh} อ.${e.DistrictsNameTh} จ.${e.ProvincesNameTh} ${e.PostCode}`);
+                          } else {
                             setFieldValue("SubdistrictsId", "");
                             setFieldValue("subdistrict", "");
                             setFieldValue("district", "");
-                            setFieldValue("province","");
-                            setFieldValue("postcode","");
-                            setFieldValue("fulladdress","")
+                            setFieldValue("province", "");
+                            setFieldValue("postcode", "");
+                            setFieldValue("fulladdress", "");
                           }
                         }}
                         getOptionLabel={(z) => `ต.${z.SubdistrictsNameTh} อ.${z.DistrictsNameTh} จ.${z.ProvincesNameTh} ${z.PostCode}`}
@@ -244,16 +267,10 @@ function FormPatient() {
 
                     <div className="col-12 px-1 mt-2">
                       <label>ตำบล / อำเภอ / จังหวัด/ รหัสไปรษณีย์</label>
-                      <input
-                        name="fulladdress"
-                        type="text"
-                        disabled={true}
-                        className={`form-input ${touched.fulladdress ? (errors.fulladdress ? "invalid" : "valid") : ""}`}
-                        value={values.fulladdress}
-                      />
+                      <input name="fulladdress" type="text" disabled={true} className={`form-input ${touched.fulladdress ? (errors.fulladdress ? "invalid" : "valid") : ""}`} value={values.fulladdress} />
                       <ErrorMessage component="div" name="fulladdress" className="text-invalid" />
                     </div>
-                   
+
                     <div className="col-12 px-1 mt-2">
                       <label>คำนำหน้าชื่อผู้ติดต่อ</label>
                       <TextSelect
