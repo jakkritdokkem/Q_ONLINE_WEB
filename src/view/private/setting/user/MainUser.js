@@ -7,7 +7,7 @@ import Status from '../../../../data/status.json';
 import Swal from 'sweetalert2';
 import ShowData from './ShowData';
 
-function MainPatient() {
+function MainUser() {
   const [data, setData] = useState([]);
   const [pagin, setPagin] = useState({
     totalRow: 1,
@@ -149,7 +149,7 @@ function MainPatient() {
                     }}
                   />
                 </div>
-               
+
                 <div className="col-12 col-md-6 col-lg-4">
                   <label>สถานะการใช้งาน</label>
                   <TextSelect
@@ -203,4 +203,4 @@ function MainPatient() {
   );
 }
 
-export default MainPatient;
+export default MainUser;

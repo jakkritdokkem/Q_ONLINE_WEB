@@ -10,8 +10,8 @@ import MainDoctor from '../view/private/setting/doctor/MainDoctor';
 import FormDoctor from '../view/private/setting/doctor/form/FormDoctor';
 import MainOpenSchedule from '../view/private/openSchedule/MainOpenSchedule';
 import FormOpenSchedule from '../view/private/openSchedule/form/FormOpenSchedule';
-import MainPatient from '../view/private/setting/patient/MainPatient';
-import FormPatient from '../view/private/setting/patient/form/FormPatient';
+import MainUser from '../view/private/setting/user/MainUser';
+import FormUser from '../view/private/setting/user/form/FormUser';
 
 // public
 import FormRegister from '../view/public/users/register/FormRegister';
@@ -45,8 +45,8 @@ function Router() {
               <Route path="/admin/treatment-type" element={<MainTreatmentType />} />
               <Route path="/admin/doctor" element={<MainDoctor />} />
               <Route path="/admin/doctor/form" element={<FormDoctor />} />
-              <Route path="/admin/user" element={<MainPatient />} />
-              <Route path="/admin/user/form" element={<FormPatient />} />
+              <Route path="/admin/user" element={<MainUser />} />
+              <Route path="/admin/user/form" element={<FormUser />} />
               <Route path="*" element={<Redirect />} />
             </Routes>
           </PrivateLayout>

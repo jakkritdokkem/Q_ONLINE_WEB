@@ -8,7 +8,7 @@ import { createUser, getDetailUser, updateUser } from "../../../../../service/Us
 import { getAddressThai } from "../../../../../service/Address.Service";
 import Schema from "./Validation";
 
-function FormPatient() {
+function FormUser() {
   const location = useLocation();
   const navigate = useNavigate();
   const [data, setData] = useState(null);
@@ -246,7 +246,7 @@ function FormPatient() {
                       />
                       <ErrorMessage component="div" name="phoneNumber" className="text-invalid" />
                     </div>
-                    
+
                     <div className="col-12 px-1 mt-2">
                       <label>ค้นหาที่อยู่</label>
                       <TextSelect
@@ -302,7 +302,7 @@ function FormPatient() {
                       <ErrorMessage component="div" name="address" className="text-invalid" />
                     </div>
 
-                    
+
 
                     <div className="col-6 px-1 mt-2">
                       <label>ตำบล / อำเภอ / จังหวัด/ รหัสไปรษณีย์</label>
@@ -350,7 +350,7 @@ function FormPatient() {
                       />
                       <ErrorMessage component="div" name="lastnameContact" className="text-invalid" />
                     </div>
-                   
+
                   </div>
                   <div className="d-flex justify-content-center mt-3">
                     <button type="submit" className="btn btn-success mx-1">
@@ -370,4 +370,4 @@ function FormPatient() {
   );
 }
 
-export default FormPatient;
+export default FormUser;
