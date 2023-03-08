@@ -8,6 +8,8 @@ import Redirect from '../view/error/Redirect';
 import MainTreatmentType from '../view/private/setting/treatmentType/MainTreatmentType';
 import MainDoctor from '../view/private/setting/doctor/MainDoctor';
 import FormDoctor from '../view/private/setting/doctor/form/FormDoctor';
+import MainOpenSchedule from '../view/private/openSchedule/MainOpenSchedule';
+import FormOpenSchedule from '../view/private/openSchedule/form/FormOpenSchedule';
 
 // public
 
@@ -34,7 +36,8 @@ function Router() {
             <Routes>
               <Route path="/" element={<h1>หลังบ้าน</h1>} />
               <Route path="/admin/book-an-appointment" element={<h1>จองคิว</h1>} />
-              <Route path="/admin/open_schedule" element={<h1>ตารางเปิดจองคิว</h1>} />
+              <Route path="/admin/open_schedule" element={<MainOpenSchedule />} />
+              <Route path="/admin/open_schedule/form" element={<FormOpenSchedule />} />
               <Route path="/admin/treatment_type" element={<MainTreatmentType />} />
               <Route path="/admin/doctor" element={<MainDoctor />} />
               <Route path="/admin/doctor/form" element={<FormDoctor />} />
