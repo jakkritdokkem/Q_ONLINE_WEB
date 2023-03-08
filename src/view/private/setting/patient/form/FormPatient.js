@@ -109,24 +109,24 @@ function FormPatient() {
           enableReinitialize={true}
           validationSchema={Schema}
           initialValues={{
-            id_card: data ? data.id_card : "",
-            prefix_id: data ? data.prefix_id : "",
+            idCard: data ? data.id_card : "",
+            prefixId: data ? data.prefix_id : "",
             name: data ? data.name : "",
             lastname: data ? data.lastname : "",
             birthday: data ? data.birthday : "",
-            phone_number: data ? data.phone_number : "",
+            phoneNumber: data ? data.phone_number : "",
             gender: data ? data.gender : "",
             address: data ? data.address : "",
             subdistrict: data ? data.subdistrict : "",
             district: data ? data.district : "",
             province: data ? data.province : "",
             postcode: data ? data.postcode : "",
-            prifix_contact_id: data ? data.prifix_contact_id : "",
-            name_contact: data ? data.name_contact : "",
-            lastname_contact: data ? data.lastname_contact : "",
+            prifixContactId: data ? data.prifix_contact_id : "",
+            nameContact: data ? data.name_contact : "",
+            lastnameContact: data ? data.lastname_contact : "",
             password: data ? data.password : "",
-            fulladdress: data ? `ต.${data.subdistrict} อ.${data.district} จ.${data.province} ${data.postcode}` : "",
-            SubdistrictsId: "",
+            fullAddress: data ? `ต.${data.subdistrict} อ.${data.district} จ.${data.province} ${data.postcode}` : "",
+            subdistrictsId: "",
           }}
           onSubmit={(value) => {
             save(value);
@@ -140,15 +140,15 @@ function FormPatient() {
                     <div className="col-6 px-1 mt-2">
                       <label>เลขบัตรประชาชน</label>
                       <input
-                        name="id_card"
+                        name="idCard"
                         type="text"
-                        value={values.id_card}
-                        className={`form-input ${touched.id_card ? (errors.id_card ? "invalid" : "valid") : ""}`}
+                        value={values.idCard}
+                        className={`form-input ${touched.idCard ? (errors.idCard ? "invalid" : "valid") : ""}`}
                         onChange={(e) => {
-                          setFieldValue("id_card", e.target.value);
+                          setFieldValue("idCard", e.target.value);
                         }}
                       />
-                      <ErrorMessage component="div" name="id_card" className="text-invalid" />
+                      <ErrorMessage component="div" name="idCard" className="text-invalid" />
                     </div>
 
                     <div className="col-6 px-1 mt-2">
@@ -168,12 +168,12 @@ function FormPatient() {
                     <div className="col-4 px-1 mt-2">
                       <label>คำนำหน้า</label>
                       <TextSelect
-                        id="prefix_id"
-                        name="prefix_id"
+                        id="prefixId"
+                        name="prefixId"
                         options={prefixUser}
-                        value={prefixUser.filter((a) => a.id === values.prefix_id)}
+                        value={prefixUser.filter((a) => a.id === values.prefixId)}
                         onChange={(item) => {
-                          setFieldValue("prefix_id", item.id);
+                          setFieldValue("prefixId", item.id);
                         }}
                         getOptionLabel={(z) => z.name}
                         getOptionValue={(x) => x.id}
@@ -236,15 +236,15 @@ function FormPatient() {
                     <div className="col-4 px-1 mt-2">
                       <label>เบอร์โทร</label>
                       <input
-                        name="phone_number"
+                        name="phoneNumber"
                         type="text"
-                        value={values.phone_number}
-                        className={`form-input ${touched.phone_number ? (errors.phone_number ? "invalid" : "valid") : ""}`}
+                        value={values.phoneNumber}
+                        className={`form-input ${touched.phoneNumber ? (errors.phoneNumber ? "invalid" : "valid") : ""}`}
                         onChange={(e) => {
-                          setFieldValue("phone_number", e.target.value);
+                          setFieldValue("phoneNumber", e.target.value);
                         }}
                       />
-                      <ErrorMessage component="div" name="phone_number" className="text-invalid" />
+                      <ErrorMessage component="div" name="phoneNumber" className="text-invalid" />
                     </div>
                     
                     <div className="col-12 px-1 mt-2">
@@ -254,7 +254,7 @@ function FormPatient() {
                         name="SubdistrictsId"
                         isClearable={true}
                         options={address}
-                        value={address.filter((a) => a.SubdistrictsId === values.SubdistrictsId)}
+                        value={address.filter((a) => a.SubdistrictsId === values.subdistrictsId)}
                         onInputChange={(inputValue) => {
                           if (inputValue) {
                             setSearchAddress(inputValue);
@@ -268,19 +268,19 @@ function FormPatient() {
                         }}
                         onChange={(e) => {
                           if (e && e.SubdistrictsId) {
-                            setFieldValue("SubdistrictsId", e.SubdistrictsId);
+                            setFieldValue("subdistrictsId", e.SubdistrictsId);
                             setFieldValue("subdistrict", e.SubdistrictsNameTh);
                             setFieldValue("district", e.DistrictsNameTh);
                             setFieldValue("province", e.ProvincesNameTh);
                             setFieldValue("postcode", e.PostCode);
-                            setFieldValue("fulladdress", `ต.${e.SubdistrictsNameTh} อ.${e.DistrictsNameTh} จ.${e.ProvincesNameTh} ${e.PostCode}`);
+                            setFieldValue("fullAddress", `ต.${e.SubdistrictsNameTh} อ.${e.DistrictsNameTh} จ.${e.ProvincesNameTh} ${e.PostCode}`);
                           } else {
-                            setFieldValue("SubdistrictsId", "");
+                            setFieldValue("subdistrictsId", "");
                             setFieldValue("subdistrict", "");
                             setFieldValue("district", "");
                             setFieldValue("province", "");
                             setFieldValue("postcode", "");
-                            setFieldValue("fulladdress", "");
+                            setFieldValue("fullAddress", "");
                           }
                         }}
                         getOptionLabel={(z) => `ต.${z.SubdistrictsNameTh} อ.${z.DistrictsNameTh} จ.${z.ProvincesNameTh} ${z.PostCode}`}
@@ -306,19 +306,19 @@ function FormPatient() {
 
                     <div className="col-6 px-1 mt-2">
                       <label>ตำบล / อำเภอ / จังหวัด/ รหัสไปรษณีย์</label>
-                      <input name="fulladdress" type="text" disabled={true} className={`form-input ${touched.fulladdress ? (errors.fulladdress ? "invalid" : "valid") : ""}`} value={values.fulladdress} />
-                      <ErrorMessage component="div" name="fulladdress" className="text-invalid" />
+                      <input name="fullAddress" type="text" disabled={true} className={`form-input ${touched.fullAddress ? (errors.fullAddress ? "invalid" : "valid") : ""}`} value={values.fullAddress} />
+                      <ErrorMessage component="div" name="fullAddress" className="text-invalid" />
                     </div>
 
                     <div className="col-4 px-1 mt-2">
                       <label>คำนำหน้าชื่อผู้ติดต่อ</label>
                       <TextSelect
-                        id="prifix_contact_id"
-                        name="prifix_contact_id"
+                        id="prifixContactId"
+                        name="prifixContactId"
                         options={prefixUser}
-                        value={prefixUser.filter((a) => a.id === values.prifix_contact_id)}
+                        value={prefixUser.filter((a) => a.id === values.prifixContactId)}
                         onChange={(item) => {
-                          setFieldValue("prifix_contact_id", item.id);
+                          setFieldValue("prifixContactId", item.id);
                         }}
                         getOptionLabel={(z) => z.name}
                         getOptionValue={(x) => x.id}
@@ -327,28 +327,28 @@ function FormPatient() {
                     <div className="col-4 px-1 mt-2">
                       <label>ชื่อผู้ติดต่อ</label>
                       <input
-                        name="name_contact"
+                        name="nameContact"
                         type="text"
-                        value={values.name_contact}
-                        className={`form-input ${touched.name_contact ? (errors.name_contact ? "invalid" : "valid") : ""}`}
+                        value={values.nameContact}
+                        className={`form-input ${touched.nameContact ? (errors.nameContact ? "invalid" : "valid") : ""}`}
                         onChange={(e) => {
-                          setFieldValue("name_contact", e.target.value);
+                          setFieldValue("nameContact", e.target.value);
                         }}
                       />
-                      <ErrorMessage component="div" name="name_contact" className="text-invalid" />
+                      <ErrorMessage component="div" name="nameContact" className="text-invalid" />
                     </div>
                     <div className="col-4 px-1 mt-2">
                       <label>นามสกุลผู้ติดต่อ</label>
                       <input
-                        name="lastname_contact"
+                        name="lastnameContact"
                         type="text"
-                        value={values.lastname_contact}
-                        className={`form-input ${touched.lastname_contact ? (errors.lastname_contact ? "invalid" : "valid") : ""}`}
+                        value={values.lastnameContact}
+                        className={`form-input ${touched.lastnameContact ? (errors.lastnameContact ? "invalid" : "valid") : ""}`}
                         onChange={(e) => {
-                          setFieldValue("lastname_contact", e.target.value);
+                          setFieldValue("lastnameContact", e.target.value);
                         }}
                       />
-                      <ErrorMessage component="div" name="lastname_contact" className="text-invalid" />
+                      <ErrorMessage component="div" name="lastnameContact" className="text-invalid" />
                     </div>
                    
                   </div>
