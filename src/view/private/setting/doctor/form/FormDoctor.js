@@ -1,14 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link,useNavigate } from 'react-router-dom';
 import { Formik, Form, ErrorMessage } from 'formik';
 import PrefixDoctor from '../../../../../data/prefixDoctor.json';
 import { TextSelect } from '../../../../../components/TextSelect';
 import { getTreatmentTypeAll } from '../../../../../service/TreatmentType.Service';
 import { createDoctor, updateDoctor, getDetailDoctor } from '../../../../../service/Doctor.Service';
+import Swal from 'sweetalert2';
 import Schema from './Validation';
 
 function FormDoctor() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [dataTreatment, setDataTreatment] = useState([]);
   const [detail, setDetail] = useState(null);
 
@@ -44,8 +46,28 @@ function FormDoctor() {
     let res = location.state ? await updateDoctor(location.state, data) : await createDoctor(data);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
-        alert(location.state ? 'Update Success' : 'Create Success');
+        Swal.fire({
+          icon: "success",
+          title: location.state ? "แก้ไขข้อมูลสำเร็จ" : "บันทึกข้อมูลสำเร็จ",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setDataTreatment(res.data);
+        navigate(-1);
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: "บันทึกข้อมูลไม่สำเร็จ !!",
+          showConfirmButton: true,
+        });
       }
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด !!",
+        text: "Server Error",
+        showConfirmButton: true,
+      });
     }
   }
 

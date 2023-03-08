@@ -1,15 +1,18 @@
-import React, { Fragment,useEffect,useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import { createUser } from "../../../../service/User.Service";
 import prefixUser from "../../../../data/prefixUser.json";
 import { Formik, Form, ErrorMessage } from "formik";
 import { TextSelect } from "../../../../components/TextSelect";
-import {getAddressThai} from "../../../../service/Address.Service";
+import { getAddressThai } from "../../../../service/Address.Service";
 import Schema from "./Validation";
 
 function FormRegister() {
+  const navigate = useNavigate();
   const [searchAddress, setSearchAddress] = useState("");
   const [address, setAddress] = useState([]);
+
   const dataGender = [
     {
       id: "1",
@@ -42,8 +45,27 @@ function FormRegister() {
     let res = await createUser(data);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
-        alert("register success");
+        Swal.fire({
+          icon: "success",
+          title: "ลงทะเบียนสำเร็จ",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/login");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "ลงทะเบียนไม่สำเร็จ !!",
+          showConfirmButton: true,
+        });
       }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด !!",
+        text: "Server Error",
+        showConfirmButton: true,
+      });
     }
   }
 
@@ -51,9 +73,8 @@ function FormRegister() {
     <Fragment>
       <div className="w-full">
         <div className="d-flex justify-content-start">
-          <p className="text-black fw-semibold">ลงทะเบียน</p>
+          <h2 className="title-content">ลงทะเบียน</h2>
         </div>
-        <div className="w-full mb-5">{/* <h2 className="title-content">{location.state ? "แก้ไข" : "เพิ่ม"}ข้อมูลรายชื่อผู้ป่วย</h2> */}</div>
         <Formik
           enableReinitialize={true}
           validationSchema={Schema}

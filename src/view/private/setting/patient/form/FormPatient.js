@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { Formik, Form, ErrorMessage } from "formik";
 import prefixUser from "../../../../../data/prefixUser.json";
 import { TextSelect } from "../../../../../components/TextSelect";
@@ -9,6 +10,7 @@ import Schema from "./Validation";
 
 function FormPatient() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [searchAddress, setSearchAddress] = useState("");
   const [address, setAddress] = useState([]);
@@ -59,8 +61,27 @@ function FormPatient() {
     let res = location.state ? await updateUser(location.state, data) : await createUser(data);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
-        alert(location.state ? "update success" : "save success");
+        Swal.fire({
+          icon: "success",
+          title: location.state ? "แก้ไขข้อมูลสำเร็จ" : "บันทึกข้อมูลสำเร็จ",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(-1);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "บันทึกข้อมูลไม่สำเร็จ !!",
+          showConfirmButton: true,
+        });
       }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด !!",
+        text: "Server Error",
+        showConfirmButton: true,
+      });
     }
   }
 
