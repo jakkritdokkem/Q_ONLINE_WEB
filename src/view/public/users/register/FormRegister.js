@@ -1,13 +1,15 @@
-import React, { Fragment } from "react";
+import React, { Fragment,useEffect,useState } from "react";
 import { Link } from "react-router-dom";
 import { createUser } from "../../../../service/User.Service";
-import address_thai from "../../../../data/address_thai.json";
 import prefixUser from "../../../../data/prefixUser.json";
 import { Formik, Form, ErrorMessage } from "formik";
 import { TextSelect } from "../../../../components/TextSelect";
+import {getAddressThai} from "../../../../service/Address.Service";
 import Schema from "./Validation";
 
 function FormRegister() {
+  const [searchAddress, setSearchAddress] = useState("");
+  const [address, setAddress] = useState([]);
   const dataGender = [
     {
       id: "1",
@@ -22,6 +24,19 @@ function FormRegister() {
       title: "อื่น ๆ",
     },
   ];
+
+  useEffect(() => {
+    if (searchAddress) {
+      getAddressList(searchAddress);
+    }
+  }, [searchAddress]);
+
+  function getAddressList(search) {
+    let res = getAddressThai(search);
+    if (res) {
+      setAddress(res);
+    }
+  }
 
   async function save(data) {
     let res = await createUser(data);
@@ -180,17 +195,26 @@ function FormRegister() {
                       />
                       <ErrorMessage component="div" name="phone_number" className="text-invalid" />
                     </div>
-                  
-                   
 
                     <div className="col-12 px-1 mt-2">
                       <label>ค้นหาที่อยู่</label>
                       <TextSelect
                         id="SubdistrictsId"
                         name="SubdistrictsId"
-                        isClearable={false}
-                        options={address_thai}
-                        value={address_thai.filter((a) => a.SubdistrictsId === values.SubdistrictsId)}
+                        isClearable={true}
+                        options={address}
+                        value={address.filter((a) => a.SubdistrictsId === values.SubdistrictsId)}
+                        onInputChange={(inputValue) => {
+                          if (inputValue) {
+                            setSearchAddress(inputValue);
+                          } else {
+                            setAddress([]);
+                          }
+                        }}
+                        onMenuClose={() => {
+                          setSearchAddress("");
+                          setAddress([]);
+                        }}
                         onChange={(e) => {
                           if (e && e.SubdistrictsId) {
                             setFieldValue("SubdistrictsId", e.SubdistrictsId);
@@ -273,7 +297,6 @@ function FormRegister() {
                       />
                       <ErrorMessage component="div" name="lastname_contact" className="text-invalid" />
                     </div>
-                   
                   </div>
                   <div className="d-flex justify-content-center mt-3">
                     <button type="submit" className="btn btn-success mx-1">
