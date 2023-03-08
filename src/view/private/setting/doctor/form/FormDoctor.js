@@ -71,6 +71,7 @@ function FormDoctor() {
     }
   }
 
+
   return (
     <Fragment>
       <div className="w-full">
@@ -156,7 +157,7 @@ function FormDoctor() {
                         id="treatment"
                         name="treatment"
                         options={dataTreatment}
-                        value={dataTreatment.filter((a) => a.id === values.treatment)}
+                        value={dataTreatment && dataTreatment.filter((a) => a.id === values.treatment)}
                         onChange={(item) => {
                           setFieldValue('treatment', item.id);
                         }}
