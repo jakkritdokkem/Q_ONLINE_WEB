@@ -4,7 +4,7 @@ import PageSize from '../../../../data/pageSize.json';
 import Pagination from 'react-js-pagination';
 import { useNavigate } from 'react-router-dom';
 
-function ShowData({ data, pagin, changePage, changePageSize }) {
+function ShowData({ data, pagin, updateStatus, deleteData, changePage, changePageSize }) {
   const navigate = useNavigate();
 
   return (
@@ -77,7 +77,7 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
                       type="button"
                       className="btn btn-warning text-white mx-1 mt-1"
                       onClick={() => {
-                        navigate('/admin/doctor/form', { state: '1' });
+                        navigate('/admin/doctor/form', { state: item.id });
                       }}
                     >
                       <i className="fa-solid fa-pen-to-square"></i>
@@ -85,19 +85,19 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
                     {/* ปุ่มอัพเดทสถานะการใช้งาน */}
                     <button
                       type="button"
-                      className={`btn text-white mx-1 mt-1 ${1 === 1 ? 'btn-danger' : 'btn-success'}`}
+                      className={`btn text-white mx-1 mt-1 ${item.is_used === 1 ? 'btn-danger' : 'btn-success'}`}
                       onClick={() => {
-                        console.log();
+                        updateStatus(item.id, { status: item.is_used === 1 ? '0' : '1' });
                       }}
                     >
-                      {1 === 1 ? <i className="fa-solid fa-lock"></i> : <i className="fa-solid fa-lock-open"></i>}
+                      {item.is_used === 1 ? <i className="fa-solid fa-lock"></i> : <i className="fa-solid fa-lock-open"></i>}
                     </button>
                     {/* ปุ่มลบข้อมูล */}
                     <button
                       type="button"
                       className="btn btn-danger text-white mx-1 mt-1"
                       onClick={() => {
-                        console.log();
+                        deleteData(item.id);
                       }}
                     >
                       <i className="fa-solid fa-trash-can"></i>

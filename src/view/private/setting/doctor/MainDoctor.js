@@ -5,7 +5,8 @@ import { TextSelect } from '../../../../components/TextSelect';
 import Status from '../../../../data/status.json';
 import ShowData from './ShowData';
 import { getTreatmentTypeAll } from '../../../../service/TreatmentType.Service';
-import { getDoctor } from '../../../../service/Doctor.Service';
+import { getDoctor, updateStatusDoctor, deleteDoctor } from '../../../../service/Doctor.Service';
+import Swal from 'sweetalert2';
 
 function MainDoctor() {
   const [dataTreatment, setDataTreatment] = useState([]);
@@ -42,6 +43,78 @@ function MainDoctor() {
         setPagin(res.pagin);
       }
     }
+  }
+
+  // ฟังก์ชันอัพเดทสถานะการใช้งาน
+  function updateStatus(id, data) {
+    Swal.fire({
+      title: 'คุณต้องการอัพเดทสถานะรายการนี้ใช่หรือไม่ !',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let res = await updateStatusDoctor(id, data);
+        if (res) {
+          if (res.statusCode === 200 && res.taskStatus) {
+            Swal.fire({
+              icon: 'success',
+              title: 'อัพเดทข้อมูลสำเร็จ',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            fetchData(10, 1, '', '', '');
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'อัพเดทข้อมูลไม่สำเร็จ',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        }
+      }
+    });
+  }
+
+  // ฟังก์ชันลบ
+  function deleteData(id) {
+    Swal.fire({
+      title: 'คุณต้องการลบรายการนี้ใช่หรือไม่ !',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let res = await deleteDoctor(id);
+        if (res) {
+          if (res.statusCode === 200 && res.taskStatus) {
+            Swal.fire({
+              icon: 'success',
+              title: 'ลบข้อมูลสำเร็จ',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            fetchData(10, 1, '', '', '');
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'ลบข้อมูลไม่สำเร็จ',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        }
+      }
+    });
   }
 
   return (
@@ -140,6 +213,8 @@ function MainDoctor() {
                 <ShowData
                   data={data}
                   pagin={pagin}
+                  updateStatus={updateStatus}
+                  deleteData={deleteData}
                   changePage={(page) => {
                     fetchData(pagin.pageSize, page, values.search, values.treatment, values.status);
                   }}

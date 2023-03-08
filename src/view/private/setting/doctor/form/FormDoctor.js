@@ -4,15 +4,32 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import PrefixDoctor from '../../../../../data/prefixDoctor.json';
 import { TextSelect } from '../../../../../components/TextSelect';
 import { getTreatmentTypeAll } from '../../../../../service/TreatmentType.Service';
+import { createDoctor, updateDoctor, getDetailDoctor } from '../../../../../service/Doctor.Service';
 import Schema from './Validation';
 
 function FormDoctor() {
   const location = useLocation();
   const [dataTreatment, setDataTreatment] = useState([]);
+  const [detail, setDetail] = useState(null);
+
+  // console.log('location', location);
+  // console.log('detail', detail);
 
   useEffect(() => {
     getTreatmentAll();
-  }, []);
+    if (location.state) {
+      getDetail(location.state);
+    }
+  }, [location.state]);
+
+  async function getDetail(id) {
+    let res = await getDetailDoctor(id);
+    if (res) {
+      if (res.statusCode === 200 && res.taskStatus) {
+        setDetail(res.data);
+      }
+    }
+  }
 
   async function getTreatmentAll() {
     let res = await getTreatmentTypeAll();
@@ -23,7 +40,14 @@ function FormDoctor() {
     }
   }
 
-  // console.log('location', location);
+  async function save(data) {
+    let res = location.state ? await updateDoctor(location.state, data) : await createDoctor(data);
+    if (res) {
+      if (res.statusCode === 200 && res.taskStatus) {
+        alert(location.state ? 'Update Success' : 'Create Success');
+      }
+    }
+  }
 
   return (
     <Fragment>
@@ -49,13 +73,14 @@ function FormDoctor() {
           enableReinitialize={true}
           validationSchema={Schema}
           initialValues={{
-            prefixId: '',
-            name: '',
-            lastname: '',
-            treatment: '',
+            prefixId: detail ? detail.prefix_id : '',
+            name: detail ? detail.name : '',
+            lastname: detail ? detail.lastname : '',
+            treatment: detail ? detail.treatment_type_id : '',
           }}
           onSubmit={(value) => {
             console.log('submit :', value);
+            save(value);
           }}
         >
           {({ values, errors, touched, setFieldValue }) => (
