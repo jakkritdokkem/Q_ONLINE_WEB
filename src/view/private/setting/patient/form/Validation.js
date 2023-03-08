@@ -5,7 +5,6 @@ const Schema = Yup.object().shape({
   name: Yup.string().required("กรุณากรอก ชื่อ"),
   lastname: Yup.string().required("กรุณากรอก นามสกุล"),
   id_card: Yup.string()
-    .matches(/^\s*\S[\s\S]*$/, "เลขบัตรประชาชน")
     .test("is-citizenID", "กรุณาตรวจสอบเลขบัตรประชาชนอีกครั้ง", function checkCitizen(value) {
       if (value === undefined) {
         return false;
