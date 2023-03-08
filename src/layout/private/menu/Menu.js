@@ -10,7 +10,7 @@ export const Menu = [
     id: 2,
     title: 'ตารางเปิดจองคิว',
     icon: 'fa-solid fa-calendar-days',
-    pathname: '/admin/open_schedule',
+    pathname: '/admin/open-schedule',
     type: 1,
   },
   {
@@ -36,7 +36,7 @@ export const Menu = [
         id: 33,
         title: 'ประเภทการรักษา',
         icon: 'fa-solid fa-minus',
-        pathname: '/admin/treatment_type',
+        pathname: '/admin/treatment-type',
       },
     ],
   },

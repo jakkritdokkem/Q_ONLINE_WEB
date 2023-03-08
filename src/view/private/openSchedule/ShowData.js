@@ -28,7 +28,7 @@ function ShowData({ data, pagin, updateStatus, deleteData, changePage, changePag
             type="button"
             className="btn btn-success"
             onClick={() => {
-              navigate('/admin/open_schedule/form');
+              navigate('/admin/open-schedule/form');
             }}
           >
             <i className="fa-solid fa-plus mx-1"></i>
@@ -80,7 +80,7 @@ function ShowData({ data, pagin, updateStatus, deleteData, changePage, changePag
                       type="button"
                       className="btn btn-warning text-white mx-1 mt-1"
                       onClick={() => {
-                        navigate('/admin/open_schedule/form', { state: item.id });
+                        navigate('/admin/open-schedule/form', { state: item.id });
                       }}
                     >
                       <i className="fa-solid fa-pen-to-square"></i>

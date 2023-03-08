@@ -1,17 +1,22 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, ErrorMessage } from 'formik';
 import { TextSelect } from '../../../../components/TextSelect';
 import { getTreatmentTypeAll } from '../../../../service/TreatmentType.Service';
 import { getDoctorBy } from '../../../../service/Doctor.Service';
+import { createOpenSchedule } from '../../../../service/OpenSchedule.Service';
+import Schema from './Validation';
+import Swal from 'sweetalert2';
 
 function FormOpenScheduld() {
+  const navigate = useNavigate();
   const location = useLocation();
   const [dataTreatment, setDataTreatment] = useState([]);
   const [dataDoctor, setDataDoctor] = useState([]);
   const [detail, setDetail] = useState(null);
 
   useEffect(() => {
+    getDoctor(0);
     getTreatmentAll();
   }, []);
 
@@ -33,7 +38,20 @@ function FormOpenScheduld() {
     }
   }
 
-  console.log(dataDoctor);
+  async function save(data) {
+    let res = await createOpenSchedule(data);
+    if (res) {
+      if (res.statusCode === 200 && res.taskStatus) {
+        Swal.fire({
+          icon: 'success',
+          title: 'อัพเดทข้อมูลสำเร็จ',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/admin/open-schedule")
+      }
+    }
+  }
 
   return (
     <Fragment>
@@ -42,7 +60,7 @@ function FormOpenScheduld() {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <Link to="/admin/open_schedule" className="nav-breadcrumb">
+                <Link to="/admin/open-schedule" className="nav-breadcrumb">
                   ข้อมูลการเปิดจองคิว
                 </Link>
               </li>
@@ -57,13 +75,12 @@ function FormOpenScheduld() {
         </div>
         <Formik
           enableReinitialize={true}
-          // validationSchema={Schema}
+          validationSchema={Schema}
           initialValues={{
-            // prefixId: detail ? detail.prefix_id : '',
-            // name: detail ? detail.name : '',
-            // lastname: detail ? detail.lastname : '',
-            // treatment: detail ? detail.treatment_type_id : '',
             treatment: '',
+            doctor: '',
+            openDate: '',
+            amount: '',
           }}
           onSubmit={(value) => {
             console.log('submit :', value);
@@ -84,6 +101,7 @@ function FormOpenScheduld() {
                         value={dataTreatment.filter((a) => a.id === values.treatment)}
                         onChange={(item) => {
                           getDoctor(item.id);
+                          setFieldValue('doctor', '');
                           setFieldValue('treatment', item.id);
                         }}
                         getOptionLabel={(z) => z.name}
@@ -93,49 +111,56 @@ function FormOpenScheduld() {
                     <div className="col-12 px-1 mt-2">
                       <label>ชื่อแพทย์</label>
                       <TextSelect
-                        id="prefixId"
-                        name="prefixId"
-                        options={[]}
-                        value={[].filter((a) => a.id === values.prefixId)}
+                        id="doctor"
+                        name="doctor"
+                        options={dataDoctor}
+                        value={dataDoctor.filter((a) => a.id === values.doctor)}
                         onChange={(item) => {
-                          setFieldValue('prefixId', item.id);
+                          setFieldValue('doctor', item.id);
                         }}
-                        getOptionLabel={(z) => z.name}
+                        getOptionLabel={(z) => z.fullname}
                         getOptionValue={(x) => x.id}
                       />
                     </div>
                     <div className="col-12 px-1 mt-2">
                       <label>วันที่เปิดจองคิว</label>
                       <input
-                        name="name"
+                        name="openDate"
                         type="date"
-                        value={values.name}
-                        className={`form-input ${touched.name ? (errors.name ? 'invalid' : 'valid') : ''}`}
+                        min={new Date().toISOString().split('T')[0]}
+                        value={values.openDate}
+                        className={`form-input ${touched.openDate ? (errors.openDate ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue('name', e.target.value);
+                          setFieldValue('openDate', e.target.value);
                         }}
                       />
-                      <ErrorMessage component="div" name="name" className="text-invalid" />
+                      <ErrorMessage component="div" name="openDate" className="text-invalid" />
                     </div>
                     <div className="col-12 px-1 mt-2">
                       <label>จำนวน</label>
                       <input
-                        name="name"
+                        name="amount"
                         type="number"
-                        value={values.name}
-                        className={`form-input ${touched.name ? (errors.name ? 'invalid' : 'valid') : ''}`}
+                        value={values.amount}
+                        className={`form-input ${touched.amount ? (errors.amount ? 'invalid' : 'valid') : ''}`}
                         onChange={(e) => {
-                          setFieldValue('name', e.target.value);
+                          setFieldValue('amount', e.target.value);
                         }}
                       />
-                      <ErrorMessage component="div" name="name" className="text-invalid" />
+                      <ErrorMessage component="div" name="amount" className="text-invalid" />
                     </div>
                   </div>
                   <div className="d-flex justify-content-center mt-3">
                     <button type="submit" className="btn btn-success mx-1">
                       บันทึก
                     </button>
-                    <button type="reset" className="btn btn-secondary mx-1">
+                    <button
+                      type="reset"
+                      className="btn btn-secondary mx-1"
+                      onClick={() => {
+                        getDoctor(0);
+                      }}
+                    >
                       ล้างค่า
                     </button>
                   </div>

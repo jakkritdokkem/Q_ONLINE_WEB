@@ -38,9 +38,9 @@ function Router() {
             <Routes>
               <Route path="/" element={<h1>หลังบ้าน</h1>} />
               <Route path="/admin/book-an-appointment" element={<h1>จองคิว</h1>} />
-              <Route path="/admin/open_schedule" element={<MainOpenSchedule />} />
-              <Route path="/admin/open_schedule/form" element={<FormOpenSchedule />} />
-              <Route path="/admin/treatment_type" element={<MainTreatmentType />} />
+              <Route path="/admin/open-schedule" element={<MainOpenSchedule />} />
+              <Route path="/admin/open-schedule/form" element={<FormOpenSchedule />} />
+              <Route path="/admin/treatment-type" element={<MainTreatmentType />} />
               <Route path="/admin/doctor" element={<MainDoctor />} />
               <Route path="/admin/doctor/form" element={<FormDoctor />} />
               <Route path="/admin/user" element={<MainPatient/>} />
