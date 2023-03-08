@@ -4,6 +4,7 @@ import { Formik, Form, ErrorMessage } from "formik";
 import prefixUser from "../../../../../data/prefixUser.json";
 import { TextSelect } from "../../../../../components/TextSelect";
 import { createUser, getDetailUser,updateUser } from "../../../../../service/User.Service";
+import address_thai from "../../../../../data/address_thai.json";
 import Schema from "./Validation";
 
 function FormPatient() {
@@ -48,6 +49,8 @@ function FormPatient() {
     }
   }
 
+
+
   return (
     <Fragment>
       <div className="w-full">
@@ -87,6 +90,9 @@ function FormPatient() {
             prifix_contact_id: data ? data.prifix_contact_id : "",
             name_contact: data ? data.name_contact : "",
             lastname_contact: data ? data.lastname_contact : "",
+            password:data? data.password : "",
+            fulladdress:"",
+            SubdistrictsId: ""
           }}
           onSubmit={(value) => {
             save(value);
@@ -97,6 +103,19 @@ function FormPatient() {
               <div className="row d-flex justify-content-center">
                 <div className="col-12 col-md-8 col-lg-6">
                   <div className="row">
+                  <div className="col-12 px-1 mt-2">
+                      <label>เลขบัตรประชาชน</label>
+                      <input
+                        name="id_card"
+                        type="text"
+                        value={values.id_card}
+                        className={`form-input ${touched.id_card ? (errors.id_card ? "invalid" : "valid") : ""}`}
+                        onChange={(e) => {
+                          setFieldValue("id_card", e.target.value);
+                        }}
+                      />
+                      <ErrorMessage component="div" name="id_card" className="text-invalid" />
+                    </div>
                     <div className="col-12 px-1 mt-2">
                       <label>คำนำหน้า</label>
                       <TextSelect
@@ -111,19 +130,7 @@ function FormPatient() {
                         getOptionValue={(x) => x.id}
                       />
                     </div>
-                    <div className="col-12 px-1 mt-2">
-                      <label>เลขบัตรประชาชน</label>
-                      <input
-                        name="id_card"
-                        type="text"
-                        value={values.id_card}
-                        className={`form-input ${touched.id_card ? (errors.id_card ? "invalid" : "valid") : ""}`}
-                        onChange={(e) => {
-                          setFieldValue("id_card", e.target.value);
-                        }}
-                      />
-                      <ErrorMessage component="div" name="id_card" className="text-invalid" />
-                    </div>
+                    
                     <div className="col-12 px-1 mt-2">
                       <label>ชื่อ</label>
                       <input
@@ -203,58 +210,50 @@ function FormPatient() {
                       />
                       <ErrorMessage component="div" name="address" className="text-invalid" />
                     </div>
+
                     <div className="col-12 px-1 mt-2">
-                      <label>ตำบล</label>
-                      <input
-                        name="subdistrict"
-                        type="text"
-                        value={values.subdistrict}
-                        className={`form-input ${touched.subdistrict ? (errors.subdistrict ? "invalid" : "valid") : ""}`}
+                      <label>ค้นหาที่อยู่</label>
+                      <TextSelect
+                        id="SubdistrictsId"
+                        name="SubdistrictsId"
+                        isClearable={true}
+                        options={address_thai}
+                        value={address_thai.filter((a) => a.SubdistrictsId === values.SubdistrictsId)}
                         onChange={(e) => {
-                          setFieldValue("subdistrict", e.target.value);
+                          if(e && e.SubdistrictsId){
+                            setFieldValue("SubdistrictsId", e.SubdistrictsId);
+                            setFieldValue("subdistrict", e.SubdistrictsNameTh);
+                            setFieldValue("district", e.DistrictsNameTh);
+                            setFieldValue("province", e.ProvincesNameTh);
+                            setFieldValue("postcode", e.PostCode);
+                            setFieldValue("fulladdress",`ต.${e.SubdistrictsNameTh} อ.${e.DistrictsNameTh} จ.${e.ProvincesNameTh} ${e.PostCode}`)
+                          }
+                          else{
+                            setFieldValue("SubdistrictsId", "");
+                            setFieldValue("subdistrict", "");
+                            setFieldValue("district", "");
+                            setFieldValue("province","");
+                            setFieldValue("postcode","");
+                            setFieldValue("fulladdress","")
+                          }
                         }}
+                        getOptionLabel={(z) => `ต.${z.SubdistrictsNameTh} อ.${z.DistrictsNameTh} จ.${z.ProvincesNameTh} ${z.PostCode}`}
+                        getOptionValue={(x) => x.SubdistrictsId}
                       />
-                      <ErrorMessage component="div" name="subdistrict" className="text-invalid" />
                     </div>
+
                     <div className="col-12 px-1 mt-2">
-                      <label>อำเภอ</label>
+                      <label>ตำบล / อำเภอ / จังหวัด/ รหัสไปรษณีย์</label>
                       <input
-                        name="district"
+                        name="fulladdress"
                         type="text"
-                        value={values.district}
-                        className={`form-input ${touched.district ? (errors.district ? "invalid" : "valid") : ""}`}
-                        onChange={(e) => {
-                          setFieldValue("district", e.target.value);
-                        }}
+                        disabled={true}
+                        className={`form-input ${touched.fulladdress ? (errors.fulladdress ? "invalid" : "valid") : ""}`}
+                        value={values.fulladdress}
                       />
-                      <ErrorMessage component="div" name="district" className="text-invalid" />
+                      <ErrorMessage component="div" name="fulladdress" className="text-invalid" />
                     </div>
-                    <div className="col-12 px-1 mt-2">
-                      <label>จังหวัด</label>
-                      <input
-                        name="province"
-                        type="text"
-                        value={values.province}
-                        className={`form-input ${touched.province ? (errors.province ? "invalid" : "valid") : ""}`}
-                        onChange={(e) => {
-                          setFieldValue("province", e.target.value);
-                        }}
-                      />
-                      <ErrorMessage component="div" name="province" className="text-invalid" />
-                    </div>
-                    <div className="col-12 px-1 mt-2">
-                      <label>รหัสไปรษณีย์</label>
-                      <input
-                        name="postcode"
-                        type="text"
-                        value={values.postcode}
-                        className={`form-input ${touched.postcode ? (errors.postcode ? "invalid" : "valid") : ""}`}
-                        onChange={(e) => {
-                          setFieldValue("postcode", e.target.value);
-                        }}
-                      />
-                      <ErrorMessage component="div" name="postcode" className="text-invalid" />
-                    </div>
+                   
                     <div className="col-12 px-1 mt-2">
                       <label>คำนำหน้าชื่อผู้ติดต่อ</label>
                       <TextSelect
@@ -294,6 +293,19 @@ function FormPatient() {
                         }}
                       />
                       <ErrorMessage component="div" name="lastname_contact" className="text-invalid" />
+                    </div>
+                    <div className="col-12 px-1 mt-2">
+                      <label>รหัสผ่าน</label>
+                      <input
+                        name="password"
+                        type="text"
+                        value={values.password}
+                        className={`form-input ${touched.password ? (errors.password ? "invalid" : "valid") : ""}`}
+                        onChange={(e) => {
+                          setFieldValue("password", e.target.value);
+                        }}
+                      />
+                      <ErrorMessage component="div" name="password" className="text-invalid" />
                     </div>
                   </div>
                   <div className="d-flex justify-content-center mt-3">
