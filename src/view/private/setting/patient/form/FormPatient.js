@@ -137,7 +137,7 @@ function FormPatient() {
               <div className="row d-flex justify-content-center">
                 <div className="col-12 col-md-8 col-lg-6">
                   <div className="row">
-                    <div className="col-12 px-1 mt-2">
+                    <div className="col-6 px-1 mt-2">
                       <label>เลขบัตรประชาชน</label>
                       <input
                         name="id_card"
@@ -150,7 +150,22 @@ function FormPatient() {
                       />
                       <ErrorMessage component="div" name="id_card" className="text-invalid" />
                     </div>
-                    <div className="col-12 px-1 mt-2">
+
+                    <div className="col-6 px-1 mt-2">
+                      <label>รหัสผ่าน</label>
+                      <input
+                        name="password"
+                        type="text"
+                        value={values.password}
+                        className={`form-input ${touched.password ? (errors.password ? "invalid" : "valid") : ""}`}
+                        onChange={(e) => {
+                          setFieldValue("password", e.target.value);
+                        }}
+                      />
+                      <ErrorMessage component="div" name="password" className="text-invalid" />
+                    </div>
+
+                    <div className="col-4 px-1 mt-2">
                       <label>คำนำหน้า</label>
                       <TextSelect
                         id="prefix_id"
@@ -165,7 +180,7 @@ function FormPatient() {
                       />
                     </div>
 
-                    <div className="col-12 px-1 mt-2">
+                    <div className="col-4 px-1 mt-2">
                       <label>ชื่อ</label>
                       <input
                         name="name"
@@ -178,7 +193,7 @@ function FormPatient() {
                       />
                       <ErrorMessage component="div" name="name" className="text-invalid" />
                     </div>
-                    <div className="col-12 px-1 mt-2">
+                    <div className="col-4 px-1 mt-2">
                       <label>นามสกุล</label>
                       <input
                         name="lastname"
@@ -191,33 +206,7 @@ function FormPatient() {
                       />
                       <ErrorMessage component="div" name="lastname" className="text-invalid" />
                     </div>
-                    <div className="col-12 px-1 mt-2">
-                      <label>วันเดือนปีเกิด</label>
-                      <input
-                        name="birthday"
-                        type="date"
-                        value={values.birthday ? new Date(values.birthday).toISOString().slice(0, 10) : values.birthday}
-                        className={`form-input ${touched.birthday ? (errors.birthday ? "invalid" : "valid") : ""}`}
-                        onChange={(e) => {
-                          setFieldValue("birthday", e.target.value);
-                        }}
-                      />
-                      <ErrorMessage component="div" name="birthday" className="text-invalid" />
-                    </div>
-                    <div className="col-12 px-1 mt-2">
-                      <label>เบอร์โทร</label>
-                      <input
-                        name="phone_number"
-                        type="text"
-                        value={values.phone_number}
-                        className={`form-input ${touched.phone_number ? (errors.phone_number ? "invalid" : "valid") : ""}`}
-                        onChange={(e) => {
-                          setFieldValue("phone_number", e.target.value);
-                        }}
-                      />
-                      <ErrorMessage component="div" name="phone_number" className="text-invalid" />
-                    </div>
-                    <div className="col-12 px-1 mt-2">
+                    <div className="col-4 px-1 mt-2">
                       <label>เพศ</label>
                       <TextSelect
                         id="gender"
@@ -231,20 +220,33 @@ function FormPatient() {
                         getOptionValue={(x) => x.id}
                       />
                     </div>
-                    <div className="col-12 px-1 mt-2">
-                      <label>ที่อยู่</label>
+                    <div className="col-4 px-1 mt-2">
+                      <label>วันเดือนปีเกิด</label>
                       <input
-                        name="address"
-                        type="text"
-                        value={values.address}
-                        className={`form-input ${touched.address ? (errors.address ? "invalid" : "valid") : ""}`}
+                        name="birthday"
+                        type="date"
+                        value={values.birthday ? new Date(values.birthday).toISOString().slice(0, 10) : values.birthday}
+                        className={`form-input ${touched.birthday ? (errors.birthday ? "invalid" : "valid") : ""}`}
                         onChange={(e) => {
-                          setFieldValue("address", e.target.value);
+                          setFieldValue("birthday", e.target.value);
                         }}
                       />
-                      <ErrorMessage component="div" name="address" className="text-invalid" />
+                      <ErrorMessage component="div" name="birthday" className="text-invalid" />
                     </div>
-
+                    <div className="col-4 px-1 mt-2">
+                      <label>เบอร์โทร</label>
+                      <input
+                        name="phone_number"
+                        type="text"
+                        value={values.phone_number}
+                        className={`form-input ${touched.phone_number ? (errors.phone_number ? "invalid" : "valid") : ""}`}
+                        onChange={(e) => {
+                          setFieldValue("phone_number", e.target.value);
+                        }}
+                      />
+                      <ErrorMessage component="div" name="phone_number" className="text-invalid" />
+                    </div>
+                    
                     <div className="col-12 px-1 mt-2">
                       <label>ค้นหาที่อยู่</label>
                       <TextSelect
@@ -286,13 +288,29 @@ function FormPatient() {
                       />
                     </div>
 
-                    <div className="col-12 px-1 mt-2">
+                    <div className="col-6 px-1 mt-2">
+                      <label>ที่อยู่</label>
+                      <input
+                        name="address"
+                        type="text"
+                        value={values.address}
+                        className={`form-input ${touched.address ? (errors.address ? "invalid" : "valid") : ""}`}
+                        onChange={(e) => {
+                          setFieldValue("address", e.target.value);
+                        }}
+                      />
+                      <ErrorMessage component="div" name="address" className="text-invalid" />
+                    </div>
+
+                    
+
+                    <div className="col-6 px-1 mt-2">
                       <label>ตำบล / อำเภอ / จังหวัด/ รหัสไปรษณีย์</label>
                       <input name="fulladdress" type="text" disabled={true} className={`form-input ${touched.fulladdress ? (errors.fulladdress ? "invalid" : "valid") : ""}`} value={values.fulladdress} />
                       <ErrorMessage component="div" name="fulladdress" className="text-invalid" />
                     </div>
 
-                    <div className="col-12 px-1 mt-2">
+                    <div className="col-4 px-1 mt-2">
                       <label>คำนำหน้าชื่อผู้ติดต่อ</label>
                       <TextSelect
                         id="prifix_contact_id"
@@ -306,7 +324,7 @@ function FormPatient() {
                         getOptionValue={(x) => x.id}
                       />
                     </div>
-                    <div className="col-12 px-1 mt-2">
+                    <div className="col-4 px-1 mt-2">
                       <label>ชื่อผู้ติดต่อ</label>
                       <input
                         name="name_contact"
@@ -319,7 +337,7 @@ function FormPatient() {
                       />
                       <ErrorMessage component="div" name="name_contact" className="text-invalid" />
                     </div>
-                    <div className="col-12 px-1 mt-2">
+                    <div className="col-4 px-1 mt-2">
                       <label>นามสกุลผู้ติดต่อ</label>
                       <input
                         name="lastname_contact"
@@ -332,19 +350,7 @@ function FormPatient() {
                       />
                       <ErrorMessage component="div" name="lastname_contact" className="text-invalid" />
                     </div>
-                    <div className="col-12 px-1 mt-2">
-                      <label>รหัสผ่าน</label>
-                      <input
-                        name="password"
-                        type="text"
-                        value={values.password}
-                        className={`form-input ${touched.password ? (errors.password ? "invalid" : "valid") : ""}`}
-                        onChange={(e) => {
-                          setFieldValue("password", e.target.value);
-                        }}
-                      />
-                      <ErrorMessage component="div" name="password" className="text-invalid" />
-                    </div>
+                   
                   </div>
                   <div className="d-flex justify-content-center mt-3">
                     <button type="submit" className="btn btn-success mx-1">
