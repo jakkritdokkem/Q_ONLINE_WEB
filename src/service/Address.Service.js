@@ -1,4 +1,4 @@
-import address_thai from "../data/address_thai.json";
+import address_thai from "../data/address.json";
 
 export function  getAddressThai (search) {
     let res = address_thai;
