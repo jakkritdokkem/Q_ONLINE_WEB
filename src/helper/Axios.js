@@ -2,10 +2,18 @@ import axios from 'axios';
 
 export const baseURL = 'http://localhost:8000/';
 
-export default axios.create({
+export const InstanceFormBody = axios.create({
   baseURL: baseURL,
   headers: {
     'Access-Control-Allow-Origin': '*',
-    'Content-Type': ['application/json;multipart/form-dasta;'],
+    'Content-Type': 'application/json',
+  },
+});
+
+export const InstanceFormData = axios.create({
+  baseURL: baseURL,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/x-www-form-urlencoded',
   },
 });

@@ -1,9 +1,9 @@
-import Instance from '../helper/Axios';
+import { InstanceFormBody /*, InstanceFormData*/ } from '../helper/Axios';
 
 // ดึงข้อมูลแบบแบ่งหน้า
 export async function getOpenSchedule(pageSize, currentPage, search, treatment, startDate, endDate) {
   try {
-    const response = await Instance.get(`openSchedule/getOpenSchedule?pageSize=${pageSize}&currentPage=${currentPage}&search=${search}&treatment=${treatment}&startDate=${startDate}&endDate=${endDate}`);
+    const response = await InstanceFormBody.get(`openSchedule/getOpenSchedule?pageSize=${pageSize}&currentPage=${currentPage}&search=${search}&treatment=${treatment}&startDate=${startDate}&endDate=${endDate}`);
     return await response.data;
   } catch (error) {
     console.log('error', error);
@@ -13,7 +13,7 @@ export async function getOpenSchedule(pageSize, currentPage, search, treatment, 
 // ดึงข้อมูลตาม id
 export async function getDetailOpenSchedule(id) {
   try {
-    const response = await Instance.get(`openSchedule/getDetailOpenSchedule/${id}`);
+    const response = await InstanceFormBody.get(`openSchedule/getDetailOpenSchedule/${id}`);
     return await response.data;
   } catch (error) {
     console.log('error', error);
@@ -23,7 +23,7 @@ export async function getDetailOpenSchedule(id) {
 // เพิ่มข้อมูลการเปิดจองคิว
 export async function createOpenSchedule(data) {
   try {
-    const response = await Instance.post(`openSchedule/createOpenSchedule`, data);
+    const response = await InstanceFormBody.post(`openSchedule/createOpenSchedule`, data);
     return await response.data;
   } catch (error) {
     console.log('error', error);
@@ -33,7 +33,7 @@ export async function createOpenSchedule(data) {
 // แก้ไขข้อมูลการเปิดจองคิว
 export async function updateOpenSchedule(id, data) {
   try {
-    const response = await Instance.put(`openSchedule/updateOpenSchedule/${id}`, data);
+    const response = await InstanceFormBody.put(`openSchedule/updateOpenSchedule/${id}`, data);
     return await response.data;
   } catch (error) {
     console.log('error', error);
@@ -43,7 +43,7 @@ export async function updateOpenSchedule(id, data) {
 // อัพเดทสถานะการใช้งาน
 export async function updateStatusOpenSchedule(id, data) {
   try {
-    const response = await Instance.put(`openSchedule/updateStatusOpenSchedule/${id}`, data);
+    const response = await InstanceFormBody.put(`openSchedule/updateStatusOpenSchedule/${id}`, data);
     return await response.data;
   } catch (error) {
     console.log('error', error);
@@ -53,7 +53,7 @@ export async function updateStatusOpenSchedule(id, data) {
 // ลบข้อมูล
 export async function deleteOpenSchedule(id) {
   try {
-    const response = await Instance.delete(`openSchedule/deleteOpenSchedule/${id}`);
+    const response = await InstanceFormBody.delete(`openSchedule/deleteOpenSchedule/${id}`);
     return await response.data;
   } catch (error) {
     console.log('error', error);
