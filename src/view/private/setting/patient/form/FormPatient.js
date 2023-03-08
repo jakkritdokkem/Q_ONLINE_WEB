@@ -91,7 +91,7 @@ function FormPatient() {
             name_contact: data ? data.name_contact : "",
             lastname_contact: data ? data.lastname_contact : "",
             password:data? data.password : "",
-            fulladdress:"",
+            fulladdress:data ? `ต.${data.subdistrict} อ.${data.district} จ.${data.province} ${data.postcode}`:"",
             SubdistrictsId: ""
           }}
           onSubmit={(value) => {
@@ -216,7 +216,7 @@ function FormPatient() {
                       <TextSelect
                         id="SubdistrictsId"
                         name="SubdistrictsId"
-                        isClearable={true}
+                        isClearable={false}
                         options={address_thai}
                         value={address_thai.filter((a) => a.SubdistrictsId === values.SubdistrictsId)}
                         onChange={(e) => {
