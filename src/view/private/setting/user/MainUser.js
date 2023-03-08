@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { TextSelect } from '../../../../components/TextSelect';
-import {getUsers,updateStatusUser,deleteUser} from '../../../../service/User.Service';
+import { getUsers, updateStatusUser, deleteUser } from '../../../../service/User.Service';
 import Status from '../../../../data/status.json';
 import Swal from 'sweetalert2';
 import ShowData from './ShowData';
@@ -121,7 +121,7 @@ function MainUser() {
           </nav>
         </div>
         <div className="w-full mb-5">
-          <h2 className="title-content">ข้อมูลรายชื่อป่วย</h2>
+          <h2 className="title-content">ข้อมูลรายชื่อผู้ป่วย</h2>
         </div>
         <Formik
           enableReinitialize={true}
@@ -164,22 +164,22 @@ function MainUser() {
                     getOptionValue={(x) => x.value}
                   />
                 </div>
-              </div>
-              <div className="d-flex justify-content-center mt-4">
-                <button type="submit" className="btn btn-success mx-1">
-                  <i className="fa-solid fa-magnifying-glass mx-1"></i>
-                  ค้นหา
-                </button>
-                <button
-                  type="reset"
-                  className="btn btn-secondary mx-1"
-                  onClick={() => {
-                    fetchData(10, 1, '', '');
-                  }}
-                >
-                  <i className="fa-solid fa-rotate-left mx-1"></i>
-                  ล้างค่า
-                </button>
+                <div className="col-12 col-lg-4 pt-4">
+                  <button type="submit" className="btn btn-success mx-1">
+                    <i className="fa-solid fa-magnifying-glass mx-1"></i>
+                    ค้นหา
+                  </button>
+                  <button
+                    type="reset"
+                    className="btn btn-secondary mx-1"
+                    onClick={() => {
+                      fetchData(10, 1, '', '');
+                    }}
+                  >
+                    <i className="fa-solid fa-rotate-left mx-1"></i>
+                    ล้างค่า
+                  </button>
+                </div>
               </div>
               <div className="w-full mt-5">
                 <ShowData

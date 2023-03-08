@@ -1,8 +1,8 @@
-import React from "react";
-import { TextSelect } from "../../../../components/TextSelect";
-import PageSize from "../../../../data/pageSize.json";
-import Pagination from "react-js-pagination";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { TextSelect } from '../../../../components/TextSelect';
+import PageSize from '../../../../data/pageSize.json';
+import Pagination from 'react-js-pagination';
+import { useNavigate } from 'react-router-dom';
 
 function ShowData({ data, pagin, changePage, changePageSize, updateStatus, deleteData }) {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ function ShowData({ data, pagin, changePage, changePageSize, updateStatus, delet
             type="button"
             className="btn btn-success"
             onClick={() => {
-              navigate("/admin/user/form");
+              navigate('/admin/user/form');
             }}
           >
             <i className="fa-solid fa-plus mx-1"></i>
@@ -39,25 +39,25 @@ function ShowData({ data, pagin, changePage, changePageSize, updateStatus, delet
         <table className="table">
           <thead>
             <tr className="table-success">
-              <th scope="col" style={{ width: "5%" }}>
+              <th scope="col" style={{ width: '5%' }}>
                 ลำดับ
               </th>
-              <th scope="col" style={{ width: "10%" }}>
+              <th scope="col" style={{ width: '10%' }}>
                 เลขบัตรประชาชน
               </th>
-              <th scope="col" style={{ width: "30%" }}>
+              <th scope="col" style={{ width: '20%' }}>
                 ชื่อ-นามสกุล
               </th>
-              <th scope="col" style={{ width: "25%" }}>
+              <th scope="col" style={{ width: '30%' }}>
                 ที่อยู่
               </th>
-              <th scope="col" style={{ width: "10%" }}>
+              <th scope="col" style={{ width: '10%' }}>
                 เบอร์โทร
               </th>
-              <th scope="col" style={{ width: "10%" }}>
+              <th scope="col" style={{ width: '10%' }}>
                 สถานะการใช้งาน
               </th>
-              <th scope="col" style={{ width: "10%" }}>
+              <th scope="col" style={{ width: '15%' }}>
                 จัดการ
               </th>
             </tr>
@@ -65,7 +65,7 @@ function ShowData({ data, pagin, changePage, changePageSize, updateStatus, delet
           <tbody>
             {data.length === 0 ? (
               <tr>
-                <td colSpan={5}>
+                <td colSpan={7}>
                   <div className="text-center text-danger">-- ไม่พบข้อมูล --</div>
                 </td>
               </tr>
@@ -79,14 +79,14 @@ function ShowData({ data, pagin, changePage, changePageSize, updateStatus, delet
                     {item.address} ต.{item.subdistrict} อ.{item.district} จ.{item.province} {item.postcode}
                   </td>
                   <td>{item.phone_number}</td>
-                  <td>{item.is_used === 1 ? "ใช้งาน" : "ไม่ใช้งาน"}</td>
+                  <td>{item.is_used === 1 ? 'ใช้งาน' : 'ไม่ใช้งาน'}</td>
                   <td>
                     {/* ปุ่มแก้ไข */}
                     <button
                       type="button"
                       className="btn btn-warning text-white mx-1 mt-1"
                       onClick={() => {
-                        navigate("/admin/user/form", { state: item.id });
+                        navigate('/admin/user/form', { state: item.id });
                       }}
                     >
                       <i className="fa-solid fa-pen-to-square"></i>
@@ -94,7 +94,7 @@ function ShowData({ data, pagin, changePage, changePageSize, updateStatus, delet
                     {/* ปุ่มอัพเดทสถานะการใช้งาน */}
                     <button
                       type="button"
-                      className={`btn text-white mx-1 mt-1 ${item.is_used === 1 ? "btn-danger" : "btn-success"}`}
+                      className={`btn text-white mx-1 mt-1 ${item.is_used === 1 ? 'btn-danger' : 'btn-success'}`}
                       onClick={() => {
                         updateStatus(item.id, { status: item.is_used === 1 ? 0 : 1 });
                       }}
