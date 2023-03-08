@@ -14,9 +14,10 @@ import MainPatient from '../view/private/setting/patient/MainPatient';
 import FormPatient from '../view/private/setting/patient/form/FormPatient';
 
 // public
+import FormRegister from '../view/public/users/register/FormRegister';
 
 function Router() {
-  const role = 1; // 1 = admin, 0 = user
+  const role = 0; // 1 = admin, 0 = user
 
   return (
     <Fragment>
@@ -28,7 +29,7 @@ function Router() {
               <Route path="/home" element={<h1>หน้าแรก</h1>} />
               <Route path="/book-an-appointment" element={<h1>จองคิว</h1>} />
               <Route path="/check-book-an-appointment" element={<h1>ตรวจสอบคิว</h1>} />
-              <Route path="/register" element={<h1>ลงทะเบียน</h1>} />
+              <Route path="/register" element={<FormRegister/>} />
               <Route path="/login" element={<h1>เข้าสู่ระบบ</h1>} />
               <Route path="*" element={<Redirect />} />
             </Routes>
