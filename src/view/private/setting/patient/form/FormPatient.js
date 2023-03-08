@@ -9,7 +9,7 @@ import Schema from "./Validation";
 
 function FormPatient() {
   const location = useLocation();
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
   const dataGender = [
     {
       id: "1",
