@@ -3,6 +3,7 @@ import { TextSelect } from '../../../components/TextSelect';
 import PageSize from '../../../data/pageSize.json';
 import Pagination from 'react-js-pagination';
 import { useNavigate } from 'react-router-dom';
+import DateTh from '../../../components/DateTh';
 
 function ShowData({ data, pagin, updateStatus, deleteData, changePage, changePageSize }) {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ function ShowData({ data, pagin, updateStatus, deleteData, changePage, changePag
               <th scope="col" style={{ width: '25%' }}>
                 ชื่อแพทย์
               </th>
-              <th scope="col" style={{ width: '25%' }}>
+              <th scope="col" style={{ width: '15%' }}>
                 ประเภทการรักษา
               </th>
               <th scope="col" style={{ width: '20%' }}>
@@ -54,6 +55,9 @@ function ShowData({ data, pagin, updateStatus, deleteData, changePage, changePag
               </th>
               <th scope="col" style={{ width: '10%' }}>
                 จำนวน
+              </th>
+              <th scope="col" style={{ width: '10%' }}>
+                สถานะการใช้งาน
               </th>
               <th scope="col" style={{ width: '15%' }}>
                 จัดการ
@@ -73,6 +77,14 @@ function ShowData({ data, pagin, updateStatus, deleteData, changePage, changePag
                   <td>{(pagin.currentPage - 1) * pagin.pageSize + (index + 1)}</td>
                   <td>{item.fullname}</td>
                   <td>{item.treatment_type_name}</td>
+                  <td>
+                    <DateTh date={item.open_date} />
+                  </td>
+                  <td>
+                    <p className={item.book_amount < item.amount ? 'text-success' : 'text-danger'}>
+                      {item.book_amount}/{item.amount}
+                    </p>
+                  </td>
                   <td>{item.is_used === 1 ? 'ใช้งาน' : 'ไม่ใช้งาน'}</td>
                   <td>
                     {/* ปุ่มแก้ไข */}

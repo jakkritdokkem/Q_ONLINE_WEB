@@ -4,7 +4,7 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import { TextSelect } from '../../../../components/TextSelect';
 import { getTreatmentTypeAll } from '../../../../service/TreatmentType.Service';
 import { getDoctorBy } from '../../../../service/Doctor.Service';
-import { createOpenSchedule } from '../../../../service/OpenSchedule.Service';
+import { createOpenSchedule, getDetailOpenSchedule, updateOpenSchedule } from '../../../../service/OpenSchedule.Service';
 import Schema from './Validation';
 import Swal from 'sweetalert2';
 
@@ -16,9 +16,23 @@ function FormOpenScheduld() {
   const [detail, setDetail] = useState(null);
 
   useEffect(() => {
-    getDoctor(0);
     getTreatmentAll();
-  }, []);
+    if (location.state && !detail) {
+      getDetail(location.state);
+    }
+    if (detail) {
+      getDoctor(detail.treatment_type_id ? detail.treatment_type_id : 0);
+    }
+  }, [detail, location.state]);
+
+  async function getDetail(id) {
+    let res = await getDetailOpenSchedule(id);
+    if (res) {
+      if (res.statusCode === 200 && res.taskStatus) {
+        setDetail(res.data);
+      }
+    }
+  }
 
   async function getTreatmentAll() {
     let res = await getTreatmentTypeAll();
@@ -39,16 +53,16 @@ function FormOpenScheduld() {
   }
 
   async function save(data) {
-    let res = await createOpenSchedule(data);
+    let res = location.state ? await updateOpenSchedule(location.state, data) : await createOpenSchedule(data);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
         Swal.fire({
           icon: 'success',
-          title: 'อัพเดทข้อมูลสำเร็จ',
+          title: 'บันทึกข้อมูลสำเร็จ',
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/admin/open-schedule")
+        navigate('/admin/open-schedule');
       }
     }
   }
@@ -77,14 +91,14 @@ function FormOpenScheduld() {
           enableReinitialize={true}
           validationSchema={Schema}
           initialValues={{
-            treatment: '',
-            doctor: '',
-            openDate: '',
-            amount: '',
+            treatment: detail ? detail.treatment_type_id : '',
+            doctor: detail ? detail.doctor_id : '',
+            openDate: detail ? (detail.open_date ? detail.open_date.split('T')[0] : '') : '',
+            amount: detail ? (detail.amount ? parseInt(detail.amount) : '') : '',
           }}
           onSubmit={(value) => {
             console.log('submit :', value);
-            // save(value);
+            save(value);
           }}
         >
           {({ values, errors, touched, setFieldValue }) => (
