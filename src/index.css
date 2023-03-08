@@ -108,3 +108,9 @@ body {
   color: #ffff;
   background-color: #10a254 !important;
 }
+
+.content-dropzone {
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: -5px;
+}
