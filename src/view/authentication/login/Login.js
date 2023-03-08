@@ -4,17 +4,21 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import '../../../style/authen.css';
 import Schema from './Validation';
 import { authen } from '../../../service/Authen.Service';
+import { connect } from 'react-redux';
+import { AUTHEN, USERINFO } from '../../../actions/Authen';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
-function Login({ show, setShow }) {
+function Login({ show, setShow, ...props }) {
   const navigate = useNavigate();
 
   async function authentication(data) {
     let res = await authen(data);
     if (res) {
       if (res.statusCode === 200 && res.taskStatus) {
-        console.log(res);
+        let data = res.data;
+        props.AUTHEN(data.id, data.id_card, data.fullname, data.role);
+        props.USERINFO();
         setShow(false);
         navigate('/');
       } else {
@@ -104,4 +108,15 @@ function Login({ show, setShow }) {
   );
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  auth: state.Authentication,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    AUTHEN: (id, idCard, fullname, role) => dispatch(AUTHEN(id, idCard, fullname, role)),
+    USERINFO: () => dispatch(USERINFO()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

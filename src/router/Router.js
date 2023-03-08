@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { AUTHEN, USERINFO } from '../actions/Authen';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicLayout from '../layout/public/PublicLayout';
 import PrivateLayout from '../layout/private/PrivateLayout';
@@ -15,10 +17,9 @@ import FormUser from '../view/private/setting/user/form/FormUser';
 
 // public
 import FormRegister from '../view/authentication/register/FormRegister';
-// import Login from '../view/authentication/login/Login';
 
-function Router() {
-  const role = 0; // 1 = admin, 0 = user
+function Router(props) {
+  const role = props.auth.role ? parseInt(props.auth.role) : 0; // 1 = admin, 0 = user
 
   return (
     <Fragment>
@@ -31,7 +32,6 @@ function Router() {
               <Route path="/book-an-appointment" element={<h1>จองคิว</h1>} />
               <Route path="/check-book-an-appointment" element={<h1>ตรวจสอบคิว</h1>} />
               <Route path="/register" element={<FormRegister />} />
-              {/* <Route path="/login" element={<Login />} /> */}
               <Route path="*" element={<Redirect />} />
             </Routes>
           </PublicLayout>
@@ -56,4 +56,15 @@ function Router() {
   );
 }
 
-export default Router;
+const mapStateToProps = (state) => ({
+  auth: state.Authentication,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    AUTHEN: (id, idCard, fullname, role) => dispatch(AUTHEN(id, idCard, fullname, role)),
+    USERINFO: () => dispatch(USERINFO()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Router);

@@ -2,12 +2,15 @@ import React, { Fragment } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu } from './menu/Menu';
 import { checkActive } from '../../helper/Check';
+import { connect } from 'react-redux';
+import { AUTHEN, USERINFO } from '../../actions/Authen';
 
-function Header() {
+function Header(props) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <header id="private">
@@ -41,7 +44,15 @@ function Header() {
             ))}
           </Nav>
           <Nav className="pl-3">
-            <Link to="#" className="nav-link text-black">
+            <Link
+              to="#"
+              className="nav-link text-black"
+              onClick={() => {
+                localStorage.clear();
+                props.USERINFO();
+                navigate('/');
+              }}
+            >
               ออกจากระบบ
             </Link>
           </Nav>
@@ -51,4 +62,15 @@ function Header() {
   );
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  auth: state.Authentication,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    AUTHEN: (id, idCard, fullname, role) => dispatch(AUTHEN(id, idCard, fullname, role)),
+    USERINFO: () => dispatch(USERINFO()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
