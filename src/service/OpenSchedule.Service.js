@@ -10,6 +10,16 @@ export async function getOpenSchedule(pageSize, currentPage, search, treatment, 
   }
 }
 
+// ดึงข้อมูลแบบแบ่งหน้า
+export async function getOpenSchedulePublic(pageSize, currentPage, search, treatment, startDate, endDate) {
+  try {
+    const response = await InstanceFormBody.get(`openSchedule/getOpenSchedulePublic?pageSize=${pageSize}&currentPage=${currentPage}&search=${search}&treatment=${treatment}&startDate=${startDate}&endDate=${endDate}`);
+    return await response.data;
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
 // ดึงข้อมูลตาม id
 export async function getDetailOpenSchedule(id) {
   try {

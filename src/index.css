@@ -114,3 +114,8 @@ body {
   margin-top: -10px;
   margin-bottom: -5px;
 }
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
