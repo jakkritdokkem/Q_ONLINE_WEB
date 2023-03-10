@@ -4,6 +4,7 @@ import { TextSelect } from '../../../components/TextSelect';
 import { getTreatmentTypeAll } from '../../../service/TreatmentType.Service';
 import { getOpenSchedulePublic } from '../../../service/OpenSchedule.Service';
 import ShowData from './ShowData';
+import '../../../style/list.css'
 
 function MainBook() {
   const [dataTreatment, setDataTreatment] = useState([]);

@@ -36,7 +36,7 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
               <div className="row">
                 {data.map((item, index) => (
                   <div className="col-12 my-2" key={item.id}>
-                    <div className="card p-3">
+                    <div className="card card-shadow p-3">
                       <div className="row d-flex justify-content-center">
                         <div className="col-12 col-md-4 col-lg-3 col-xxl-2">
                           <div className="d-flex justify-content-center justify-content-md-start">
@@ -60,14 +60,18 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
                             </div>
                             <div>
                               <p>
-                                วันที่ทำการรักษา <DateTh date={item.open_date} />
+                                <i className="fa-regular fa-calendar-days me-1"></i>
+                                <DateTh date={item.open_date} />
                               </p>
                             </div>
                           </div>
-                          <p>{item.fullname}</p>
-                          <div className="d-flex justify-content-between mt-5">
-                            <div>
-                              <h4>จำนวน {`${item.book_amount}/${item.amount}`}</h4>
+                          <div>{item.fullname}</div>
+                          <div>
+                            <i className="fa-regular fa-clock me-1"></i>8:00 - 15:00
+                          </div>
+                          <div className="d-flex justify-content-between mt-3">
+                            <div className="fs-6 pt-2">
+                              จำนวน <span className="fw-semibold">{`${item.book_amount}/${item.amount}`}</span>
                             </div>
                             <div>
                               <button type="button" className="btn btn-success">
