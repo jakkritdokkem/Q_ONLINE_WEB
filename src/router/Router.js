@@ -7,6 +7,7 @@ import PrivateLayout from '../layout/private/PrivateLayout';
 import Redirect from '../view/error/Redirect';
 
 // private
+import MainBookAppointment from '../view/private/bookAppointment/MainBookAppointment';
 import MainTreatmentType from '../view/private/setting/treatmentType/MainTreatmentType';
 import MainDoctor from '../view/private/setting/doctor/MainDoctor';
 import FormDoctor from '../view/private/setting/doctor/form/FormDoctor';
@@ -32,7 +33,7 @@ function Router(props) {
               <Route path="/" element={<h1>หน้าแรก</h1>} />
               <Route path="/home" element={<h1>หน้าแรก</h1>} />
               <Route path="/book-an-appointment" element={<MainBook />} />
-              <Route path="/check-book-an-appointment" element={<MainHistory />} />
+              {props.auth.role ? <Route path="/check-book-an-appointment" element={<MainHistory />} /> : null}
               <Route path="/register" element={<FormRegister />} />
               <Route path="*" element={<Redirect />} />
             </Routes>
@@ -41,7 +42,7 @@ function Router(props) {
           <PrivateLayout>
             <Routes>
               <Route path="/" element={<h1>หลังบ้าน</h1>} />
-              <Route path="/admin/book-an-appointment" element={<h1>จองคิว</h1>} />
+              <Route path="/admin/book-an-appointment" element={<MainBookAppointment />} />
               <Route path="/admin/open-schedule" element={<MainOpenSchedule />} />
               <Route path="/admin/open-schedule/form" element={<FormOpenSchedule />} />
               <Route path="/admin/treatment-type" element={<MainTreatmentType />} />

@@ -2,9 +2,37 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { Formik, Form, ErrorMessage } from 'formik';
 import DateTh from '../../../components/DateTh';
+import { createBookAppointment } from '../../../service/BookAppointment.Service';
 import Swal from 'sweetalert2';
 
 function ModalBook({ show, setShow, dataBook, setDataBook, reload }) {
+  // จองคิว
+  async function createBook(data) {
+    let res = await createBookAppointment(data);
+    if (res) {
+      if (res.statusCode === 200 && res.taskStatus) {
+        Swal.fire({
+          icon: 'success',
+          title: 'จองคิวสำเร็จ',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setDataBook(null);
+        setShow(false);
+        reload(true);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'จองคิวไม่สำเร็จ',
+          text: res.message,
+          confirmButtonText: 'ตกลง',
+          showConfirmButton: true,
+          timer: false,
+        });
+      }
+    }
+  }
+
   return (
     <Modal
       show={show}
@@ -28,6 +56,19 @@ function ModalBook({ show, setShow, dataBook, setDataBook, reload }) {
           }}
           onSubmit={(value) => {
             console.log('submit :', value);
+
+            if (value.openScheduleId && value.userId) {
+              createBook(value);
+            } else {
+              Swal.fire({
+                icon: 'warning',
+                title: 'จองคิวไม่สำเร็จ',
+                text: 'กรุณาลองใหม่อีกครั้ง',
+                confirmButtonText: 'ตกลง',
+                showConfirmButton: true,
+                timer: false,
+              });
+            }
           }}
         >
           {({ values, errors, touched, setFieldValue }) => (

@@ -37,8 +37,8 @@ export const TextSelect = ({ title, useForm = true, placeholder, ...props }) => 
         zIndex: 10,
       };
     },
-    menuPortal: (provided) => ({ ...provided, zIndex: 10 }),
-    menu: (provided) => ({ ...provided, zIndex: 10 }),
+    menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
   };
 
   return (

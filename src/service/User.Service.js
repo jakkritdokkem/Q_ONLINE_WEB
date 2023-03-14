@@ -20,6 +20,16 @@ export async function getDetailUser(id) {
   }
 }
 
+// ดึงข้อมูลทั้งหมด
+export async function getUserAll() {
+  try {
+    const response = await InstanceFormBody.get(`user/getUserAll`);
+    return await response.data;
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
 // เพิ่มข้อมูล
 export async function createUser(data) {
   try {

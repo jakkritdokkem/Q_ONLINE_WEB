@@ -30,7 +30,7 @@ function Header(props) {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto"></Nav>
           <Nav>
-            {Menu.map((item) => (
+            {Menu.filter((a) => (localStorage.getItem('id') ? true : a.type === 1)).map((item) => (
               <Link to={item.pathname} className={`nav-link ${checkActive(location, item.pathname) ? 'nav-active' : ''}`} key={item.id}>
                 {item.title}
               </Link>

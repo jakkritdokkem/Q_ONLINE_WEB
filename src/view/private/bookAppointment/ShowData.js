@@ -1,33 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { TextSelect } from '../../../components/TextSelect';
 import PageSize from '../../../data/pageSize.json';
 import Pagination from 'react-js-pagination';
 import DateTh from '../../../components/DateTh';
 import StatusBook from '../../../components/StatusBook';
-import { useReactToPrint } from 'react-to-print';
-import MainPdf from './pdf/MainPdf';
 
-function ShowData({ data, pagin, changePage, changePageSize }) {
-  const [dataQ, setDataQ] = useState(null);
-  const componentRef = useRef();
-  const pageStyle = `
-  @page {
-    size: 4in 4in;
-  }`;
-
-  useEffect(() => {
-    if (dataQ) {
-      print();
-    }
-  }, [dataQ]);
-
-  const print = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: 'Q_Online',
-    pageStyle: pageStyle,
-  });
-
+function ShowData({ data, pagin, setDataBook, changePage, changePageSize }) {
   return (
     <div className="w-full">
       <div className="d-flex justify-content-between mb-2">
@@ -55,10 +33,10 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
               <th scope="col" style={{ width: '10%' }}>
                 รหัสคิว
               </th>
-              <th scope="col" style={{ width: '25%' }}>
-                ชื่อแพทย์
+              <th scope="col" style={{ width: '20%' }}>
+                ชื่อผู้ป่วย/ชื่อแพทย์
               </th>
-              <th scope="col" style={{ width: '10%' }}>
+              <th scope="col" style={{ width: '15%' }}>
                 ประเภทการรักษา
               </th>
               <th scope="col" style={{ width: '10%' }}>
@@ -81,7 +59,7 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
           <tbody>
             {data.length === 0 ? (
               <tr>
-                <td colSpan={9}>
+                <td colSpan={8}>
                   <div className="text-center text-danger">-- ไม่พบข้อมูล --</div>
                 </td>
               </tr>
@@ -90,7 +68,12 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
                 <tr key={item.id}>
                   <td>{(pagin.currentPage - 1) * pagin.pageSize + (index + 1)}</td>
                   <td>{item.code}</td>
-                  <td>{item.fullname_doctor}</td>
+                  <td>
+                    <div>{item.fullname}</div>
+                    <div>
+                      <small className="fw-light">({item.fullname_doctor})</small>
+                    </div>
+                  </td>
                   <td>{item.treatment_type_name}</td>
                   <td>
                     <DateTh date={item.created_date} />
@@ -105,12 +88,12 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
                   <td>
                     <button
                       type="button"
-                      className="btn btn-info"
+                      className="btn btn-warning text-white mx-1 mt-1"
                       onClick={() => {
-                        setDataQ(item);
+                        setDataBook(item);
                       }}
                     >
-                      <i className="fa-solid fa-print text-white"></i>
+                      <i className="fa-solid fa-pen-to-square"></i>
                     </button>
                   </td>
                 </tr>
@@ -131,14 +114,6 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
               changePage(page);
             }}
           />
-        </div>
-      </div>
-
-      <div className="d-flex justify-content-center ">
-        <div className="hidden">
-          <div ref={componentRef}>
-            <MainPdf dataQ={dataQ} />
-          </div>
         </div>
       </div>
     </div>

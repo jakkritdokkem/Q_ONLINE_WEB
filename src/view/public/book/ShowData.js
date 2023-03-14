@@ -6,8 +6,9 @@ import { baseURL } from '../../../helper/Axios';
 import DateTh from '../../../components/DateTh';
 import { TextSelect } from '../../../components/TextSelect';
 import PageSize from '../../../data/pageSize.json';
+import Swal from 'sweetalert2';
 
-function ShowData({ data, pagin, changePage, changePageSize }) {
+function ShowData({ data, pagin, setDataBook, changePage, changePageSize }) {
   return (
     <div className="w-full">
       <div className="row d-flex justify-content-center">
@@ -74,7 +75,24 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
                               จำนวน <span className="fw-semibold">{`${item.book_amount}/${item.amount}`}</span>
                             </div>
                             <div>
-                              <button type="button" className="btn btn-success">
+                              <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={() => {
+                                  if (localStorage.getItem('id')) {
+                                    setDataBook(item);
+                                  } else {
+                                    Swal.fire({
+                                      icon: 'warning',
+                                      title: 'ไม่สามารถจองคิวได้',
+                                      text: 'กรุณาลงทะเบียน หรือทำการเข้าสู่ระบบก่อน',
+                                      confirmButtonText: 'ตกลง',
+                                      showConfirmButton: true,
+                                      timer: false,
+                                    });
+                                  }
+                                }}
+                              >
                                 จองคิว
                               </button>
                             </div>
