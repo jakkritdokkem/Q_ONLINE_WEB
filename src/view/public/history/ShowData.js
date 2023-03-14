@@ -29,27 +29,36 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
               <th scope="col" style={{ width: '5%' }}>
                 ลำดับ
               </th>
+              <th scope="col" style={{ width: '10%' }}>
+                รหัสคิว
+              </th>
               <th scope="col" style={{ width: '25%' }}>
                 ชื่อแพทย์
               </th>
-              <th scope="col" style={{ width: '25%' }}>
+              <th scope="col" style={{ width: '10%' }}>
                 ประเภทการรักษา
               </th>
-              <th scope="col" style={{ width: '20%' }}>
+              <th scope="col" style={{ width: '10%' }}>
                 วันที่จองคิว
               </th>
-              <th scope="col" style={{ width: '15%' }}>
+              <th scope="col" style={{ width: '10%' }}>
+                วันที่เข้ารับการรักษา
+              </th>
+              <th scope="col" style={{ width: '5%' }}>
                 คิวที่
               </th>
               <th scope="col" style={{ width: '10%' }}>
                 สถานะ
+              </th>
+              <th scope="col" style={{ width: '5%' }}>
+                จัดการ
               </th>
             </tr>
           </thead>
           <tbody>
             {data.length === 0 ? (
               <tr>
-                <td colSpan={7}>
+                <td colSpan={9}>
                   <div className="text-center text-danger">-- ไม่พบข้อมูล --</div>
                 </td>
               </tr>
@@ -57,17 +66,18 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
               data.map((item, index) => (
                 <tr key={item.id}>
                   <td>{(pagin.currentPage - 1) * pagin.pageSize + (index + 1)}</td>
-                  <td>{item.fullname}</td>
+                  <td>{item.code}</td>
+                  <td>{item.fullname_doctor}</td>
                   <td>{item.treatment_type_name}</td>
+                  <td>
+                    <DateTh date={item.created_date} />
+                  </td>
                   <td>
                     <DateTh date={item.open_date} />
                   </td>
-                  <td>
-                    <p className={item.book_amount < item.amount ? 'text-success' : 'text-danger'}>
-                      {item.book_amount}/{item.amount}
-                    </p>
-                  </td>
-                  <td>{item.is_used === 1 ? 'ใช้งาน' : 'ไม่ใช้งาน'}</td>
+                  <td>{item.number}</td>
+                  <td>{item.status}</td>
+                  <td></td>
                 </tr>
               ))
             )}
@@ -83,7 +93,7 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
             totalItemsCount={pagin.totalRow}
             pageRangeDisplayed={pagin.totalPage}
             onChange={(page) => {
-              // changePage(page);
+              changePage(page);
             }}
           />
         </div>
