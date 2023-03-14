@@ -22,7 +22,7 @@ function Header(props) {
 
   return (
     <header id="public">
-      <Navbar collapseOnSelect expand="md" className="navbar px-4">
+      <Navbar collapseOnSelect expand="lg" className="navbar p-layout">
         <Link to="/" className="logo-title">
           Q Online
         </Link>

@@ -2,6 +2,11 @@
   min-height: 100vh;
 }
 
+.p-layout {
+  padding-left: 100px !important;
+  padding-right: 100px !important;
+}
+
 #public .navbar {
   color: #ffff !important;
   background-color: #10a254;

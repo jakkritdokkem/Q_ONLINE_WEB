@@ -17,7 +17,7 @@ function ShowData({ data, pagin, changePage, changePageSize }) {
           </div>
         ) : (
           <Fragment>
-            <div className="col-8">
+            <div className="col-12">
               <div className="d-flex justify-content-between mb-2">
                 <div className="w-pagesize">
                   <TextSelect

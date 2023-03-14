@@ -7,7 +7,7 @@ function PublicLayout(props) {
   return (
     <Fragment>
       <Header />
-      <div className="main-public-layout p-4">{props.children}</div>
+      <div className="main-public-layout p-layout py-4">{props.children}</div>
       <Footer />
     </Fragment>
   );
