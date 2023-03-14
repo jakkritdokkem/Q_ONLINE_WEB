@@ -3,8 +3,15 @@
 }
 
 .p-layout {
-  padding-left: 100px !important;
-  padding-right: 100px !important;
+  padding-left: 150px !important;
+  padding-right: 150px !important;
+}
+
+@media screen and (max-width: 1250px) {
+  .p-layout {
+    padding-left: 50px !important;
+    padding-right: 50px !important;
+  }
 }
 
 #public .navbar {
